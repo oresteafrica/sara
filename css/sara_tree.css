@@ -1,0 +1,54 @@
+body {
+	font-family:Arial;
+	background-color:lightgrey;
+}
+div {
+	float:left;
+	padding:10px 10px 10px 10px;
+	border:solid 1px blue;
+	width:48%;
+}
+#divtree {
+	width:30%;
+}
+#divnotes {
+	width:50%;
+}
+#divnotes span {
+	font-weight:bold;
+}
+#treetitle {
+	float:left;
+	width:100%;
+}
+#treemodicampo {
+	float:left;
+	width:90%;
+}
+#treemodicampo label {
+	float:left;
+	width:100%;
+	margin-top:20px;
+}
+#treemodicampo input {
+	float:left;
+	width:100%;
+}
+#treemodicampo textarea {
+	float:left;
+	width:100%;
+	height:400px;
+}
+#treebut {
+	margin-top:10px;
+}
+#treebut button{
+	float:left;
+	width:80px;
+	height:40px;
+	font-size:x-small;
+	margin-right:4px;
+}
+#treewait {
+
+}
