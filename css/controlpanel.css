@@ -8,6 +8,7 @@
 }
 .drop {
     box-sizing: border-box;
+    min-height: 400px;
 }
 .fix {
     float: left;

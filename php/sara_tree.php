@@ -75,7 +75,7 @@ if ($debug) {
 }
 
 //----------------------------------------------------------------------------------------------------------
-function print_list($array, $parent=1) {
+function print_list($array, $parent=0) {
 
 	if ( $parent>1) print '<ul>'; else print '<ul id="ultree">';
     for($i=$parent, $ni=count($array); $i < $ni; $i++){
