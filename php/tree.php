@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<link rel="stylesheet" href="../js/jstree/themes/default/style.min.css">
+	<script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="../js/jstree/jstree.min.js"></script>
+	<script type="text/javascript" src="../js/cicle.js"></script>
+	<script type="text/javascript" src="../js/sara_tree.js"></script>
+</head>
+<body>
+
+<div id="divtree">
+
 <?php
 
 $localhosts = array(
@@ -37,6 +51,12 @@ $ulli = ob_get_clean();
 
 echo $ulli;
 
+?>
+</div>
+
+<?php
+
+
 if ($debug) {
 !Kint::dump( $aous_level );
 }
@@ -74,3 +94,8 @@ CREATE TABLE IF NOT EXISTS `sara` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 */
 ?>
+
+
+
+</body>
+</html>
