@@ -105,7 +105,7 @@ function print_list($array, $parent=0) {
     print '</ul>';
 }
 //----------------------------------------------------------------------------------------------------------
-function create_array_from_table ($db, $table, $sort) {
+function create_array_from_tables ($db, $table, $sort) {
 	$sql = "SELECT * FROM $table ORDER BY $sort ASC";
 	$tabquery = $db->query($sql);
 	$tabquery->setFetchMode(PDO::FETCH_ASSOC);
@@ -117,6 +117,17 @@ function create_array_from_table ($db, $table, $sort) {
 	return $array_table;
 }
 //----------------------------------------------------------------------------------------------------------
+function create_array_from_table ($db, $table, $sort) {
+	$sql = "SELECT * FROM $table ORDER BY $sort ASC";
+	$tabquery = $db->query($sql);
+	$tabquery->setFetchMode(PDO::FETCH_ASSOC);
+	if ($tabquery->rowCount() < 1) { echo '<h1>A base de dados é vazia</h1>'; exit; }
+	$array_table = [];
+	foreach ($tabquery as $tabres) {
+		array_push($array_table, $tabres);
+	}
+	return $array_table;
+}
 /*
 CREATE TABLE IF NOT EXISTS `sara` (
   `id` int(11) NOT NULL COMMENT 'Numero de identificação interno. Não visível para o utente.',
@@ -124,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `sara` (
   `id_up` int(11) NOT NULL COMMENT 'Id do território de referência com nível hierarquico superior',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 */
+//----------------------------------------------------------------------------------------------------------
 ?>
 
 </div>
