@@ -27,6 +27,7 @@
         #ultree ul {
             display:none;
         }
+        span:hover { background: lightblue; }
         div {
             float:left;
         }
