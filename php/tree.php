@@ -2,15 +2,47 @@
 <html>
 <head>
 	<meta charset='utf-8'>
-	<link rel="stylesheet" href="../js/jstree/themes/default/style.min.css">
 	<script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
-	<script type="text/javascript" src="../js/jstree/jstree.min.js"></script>
-	<script type="text/javascript" src="../js/cicle.js"></script>
-	<script type="text/javascript" src="../js/sara_tree.js"></script>
+	<script type="text/javascript">
+    $( document ).ready(function() {
+        $('li').on("click", function (e) {
+        e.stopPropagation();
+            $(this).children('ul').toggle('slow');
+        });
+        $('span').click(function(){
+            $('#res').html($(this).text() + ' ('+this.id+')');
+        });
+    }); // $
+    </script>
+    <style>
+        body {
+            font-family: "Arial";
+        }
+        #tree {
+            font-size:small;
+        }
+        ul {
+            list-style-type:none;
+        }
+        #ultree ul {
+            display:none;
+        }
+        div {
+            float:left;
+        }
+        #res {
+            margin-top:20px;
+            margin-left:60px;
+            padding:6px;
+            border:1px solid black;
+            min-height:40px;
+            min-width: 40px;
+        }
+    </style>
 </head>
 <body>
 
-<div id="divtree">
+<div id="tree">
 
 <?php
 
@@ -43,22 +75,21 @@ try {
     die('Problemas de conexão à base de dados:<br/>' . $e);
 }
 
-$aous_level = create_array_from_table ($db, 'sara', 'id_up, id');
+$table = 'sara';
+$sort = 'id';
+$sara = create_array_from_table ($db, $table, $sort);
 
 ob_start();
-print_list($aous_level,1);
+print_list($sara,1);
 $ulli = ob_get_clean();
-
 echo $ulli;
-
-?>
-</div>
-
-<?php
 
 
 if ($debug) {
-!Kint::dump( $aous_level );
+    //echo '<pre>';
+    //print_r($json);
+    //echo '</pre>';
+    !Kint::dump( $sara );
 }
 
 //----------------------------------------------------------------------------------------------------------
@@ -67,7 +98,7 @@ function print_list($array, $parent=0) {
 	if ( $parent>1) print '<ul>'; else print '<ul id="ultree">';
     for($i=$parent, $ni=count($array); $i < $ni; $i++){
         if ($array[$i]['id_up'] == $parent) {
-            print '<li>'.$array[$i]['name']. ' <span style="font-size:xx-small;">('.$array[$i]['id'].')</span>';
+            print '<li><span id="'.$array[$i]['id'].'">'.$array[$i]['name'].'</span>';
             print_list($array, $array[$i]['id']);  # recurse
             print '</li>';
     }   }
@@ -95,7 +126,9 @@ CREATE TABLE IF NOT EXISTS `sara` (
 */
 ?>
 
+</div>
 
+<div id="res"></div>
 
 </body>
 </html>
