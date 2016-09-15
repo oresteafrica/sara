@@ -78,7 +78,8 @@ try {
     die('Problemas de conexão à base de dados:<br/>' . $e);
 }
 
-$sql = 'select areas.id, areas.name, hierarchy_areas_areas.id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 order by areas.id';
+$sql = 'SELECT areas.id AS id, areas.name AS name, CAST(hierarchy_areas_areas.id_up AS UNSIGNED) AS id_up, CONCAT("a_",areas.id) AS sid FROM areas, hierarchy_areas_areas WHERE areas.id = hierarchy_areas_areas.id AND hierarchy_areas_areas.id_up < 13 UNION SELECT (@cnt := @cnt + 1) AS id, units.name AS name, CAST(hierarchy_units_areas.id_area AS UNSIGNED) AS id_up, CONCAT("u_",units.id) AS sid FROM units, hierarchy_units_areas CROSS JOIN (SELECT @cnt := 10000) AS dummy WHERE units.id = hierarchy_units_areas.id_unit ORDER BY id, id_up';
+
 $array_table = create_array_from_tables ($db, $sql);
 
 if ($debug) {
@@ -93,12 +94,6 @@ ob_start();
 print_list($array_table,1);
 $ulli = ob_get_clean();
 echo $ulli;
-
-$sql = 'select units.id, units.name, hierarchy_units_areas.id_area from units, hierarchy_units_areas where units.id = hierarchy_units_areas.id_unit order by units.id';
-$array_table = create_array_from_tables ($db, $sql);
-!Kint::dump( $array_table );
-
-
 
 //----------------------------------------------------------------------------------------------------------
 function create_array_from_tables ($db, $sql) {
@@ -117,7 +112,7 @@ function print_list($array, $parent=0) {
 	if ( $parent>1) print '<ul>'; else print '<ul id="ultree">';
     for($i=$parent, $ni=count($array); $i < $ni; $i++){
         if ($array[$i]['id_up'] == $parent) {
-            print '<li><span id="'.$array[$i]['id'].'">'.$array[$i]['name'].'</span>';
+            print '<li><span id="'.$array[$i]['sid'].'">'.$array[$i]['name'].'</span>';
             print_list($array, $array[$i]['id']);  # recurse
             print '</li>';
     }   }
@@ -160,6 +155,17 @@ select areas.id, areas.name, hierarchy_areas_areas.id_up from areas, hierarchy_a
 ---
 select concat("a_",areas.id) as id, areas.name as name, concat("a_",hierarchy_areas_areas.id_up) as id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 union select concat("u_",units.id) as id, units.name as name, concat("a_",hierarchy_units_areas.id_area) as id_up from units, hierarchy_units_areas where units.id = hierarchy_units_areas.id_unit order by id_up
 ---
+select areas.id as id, concat("a_",areas.id) as sid, areas.name as name, concat("a_",hierarchy_areas_areas.id_up) as id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 union select units.id as id, concat("u_",units.id) as sid, units.name as name, concat("a_",hierarchy_units_areas.id_area) as id_up from units, hierarchy_units_areas where units.id = hierarchy_units_areas.id_unit order by id_up
+---
+select areas.id as id, concat("a_",areas.id) as sid, areas.name as name, hierarchy_areas_areas.id_up as id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 union select units.id as id, concat("u_",units.id) as sid, units.name as name, hierarchy_units_areas.id_area as id_up from units, hierarchy_units_areas where units.id = hierarchy_units_areas.id_unit order by id_up
+---
+select areas.id as id, areas.name as name, hierarchy_areas_areas.id_up as id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 union select units.id as id, units.name as name, hierarchy_units_areas.id_area as id_up from units, hierarchy_units_areas where units.id = hierarchy_units_areas.id_unit order by id_up
+---
+select areas.id as id, areas.name as name, hierarchy_areas_areas.id_up as id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 union select (@cnt := @cnt + 1) as id, units.name as name, hierarchy_units_areas.id_area as id_up from units, hierarchy_units_areas cross join (SELECT @cnt := 1000) AS dummy where units.id = hierarchy_units_areas.id_unit order by id_up
+---
+SELECT areas.id AS id, areas.name AS name, hierarchy_areas_areas.id_up AS id_up, concat("a_",areas.id) AS sid FROM areas, hierarchy_areas_areas WHERE areas.id = hierarchy_areas_areas.id AND hierarchy_areas_areas.id_up < 13 UNION SELECT (@cnt := @cnt + 1) AS id, units.name AS name, hierarchy_units_areas.id_area AS id_up, concat("u_",units.id) AS sid FROM units, hierarchy_units_areas CROSS JOIN (SELECT @cnt := 10000) AS dummy WHERE units.id = hierarchy_units_areas.id_unit ORDER BY id_up
+---
+SELECT areas.id AS id, areas.name AS name, CAST(hierarchy_areas_areas.id_up AS UNSIGNED) AS id_up, CONCAT("a_",areas.id) AS sid FROM areas, hierarchy_areas_areas WHERE areas.id = hierarchy_areas_areas.id AND hierarchy_areas_areas.id_up < 13 UNION SELECT (@cnt := @cnt + 1) AS id, units.name AS name, CAST(hierarchy_units_areas.id_area AS UNSIGNED) AS id_up, CONCAT("u_",units.id) AS sid FROM units, hierarchy_units_areas CROSS JOIN (SELECT @cnt := 10000) AS dummy WHERE units.id = hierarchy_units_areas.id_unit ORDER BY id_up
 */
 
 ?>
