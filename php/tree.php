@@ -59,9 +59,11 @@ error_reporting(E_ALL | E_STRICT);
 require 'kint/Kint.class.php';
 }
 
-$debug = false;
+//ini_set('max_execution_time', 300);
 
-$ini_array = parse_ini_file('../../cron/moz.ini');
+$debug = 0;
+
+$ini_array = parse_ini_file('../../cron/sara.ini');
 $sdsn = $ini_array['sdsn'];
 $user = $ini_array['user'];
 $pass = $ini_array['pass'];
@@ -76,23 +78,39 @@ try {
     die('Problemas de conexão à base de dados:<br/>' . $e);
 }
 
-$table = 'sara';
-$sort = 'id';
-$sara = create_array_from_table ($db, $table, $sort);
-
-ob_start();
-print_list($sara,1);
-$ulli = ob_get_clean();
-echo $ulli;
-
+$sql = 'select areas.id, areas.name, hierarchy_areas_areas.id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 order by areas.id';
+$array_table = create_array_from_tables ($db, $sql);
 
 if ($debug) {
     //echo '<pre>';
     //print_r($json);
     //echo '</pre>';
-    !Kint::dump( $sara );
+    !Kint::dump( $array_table );
+    exit;
 }
 
+ob_start();
+print_list($array_table,1);
+$ulli = ob_get_clean();
+echo $ulli;
+
+$sql = 'select units.id, units.name, hierarchy_units_areas.id_area from units, hierarchy_units_areas where units.id = hierarchy_units_areas.id_unit order by units.id';
+$array_table = create_array_from_tables ($db, $sql);
+!Kint::dump( $array_table );
+
+
+
+//----------------------------------------------------------------------------------------------------------
+function create_array_from_tables ($db, $sql) {
+	$tabquery = $db->query($sql);
+	$tabquery->setFetchMode(PDO::FETCH_ASSOC);
+	if ($tabquery->rowCount() < 1) { echo '<h1>A base de dados é vazia</h1>'; exit; }
+	$array_table = [];
+	foreach ($tabquery as $tabres) {
+		array_push($array_table, $tabres);
+	}
+	return $array_table;
+}
 //----------------------------------------------------------------------------------------------------------
 function print_list($array, $parent=0) {
 
@@ -106,37 +124,44 @@ function print_list($array, $parent=0) {
     print '</ul>';
 }
 //----------------------------------------------------------------------------------------------------------
-function create_array_from_tables ($db, $table, $sort) {
-	$sql = "SELECT * FROM $table ORDER BY $sort ASC";
-	$tabquery = $db->query($sql);
-	$tabquery->setFetchMode(PDO::FETCH_ASSOC);
-	if ($tabquery->rowCount() < 1) { echo '<h1>A base de dados é vazia</h1>'; exit; }
-	$array_table = [];
-	foreach ($tabquery as $tabres) {
-		array_push($array_table, $tabres);
-	}
-	return $array_table;
-}
-//----------------------------------------------------------------------------------------------------------
-function create_array_from_table ($db, $table, $sort) {
-	$sql = "SELECT * FROM $table ORDER BY $sort ASC";
-	$tabquery = $db->query($sql);
-	$tabquery->setFetchMode(PDO::FETCH_ASSOC);
-	if ($tabquery->rowCount() < 1) { echo '<h1>A base de dados é vazia</h1>'; exit; }
-	$array_table = [];
-	foreach ($tabquery as $tabres) {
-		array_push($array_table, $tabres);
-	}
-	return $array_table;
-}
 /*
-CREATE TABLE IF NOT EXISTS `sara` (
-  `id` int(11) NOT NULL COMMENT 'Numero de identificação interno. Não visível para o utente.',
-  `name` varchar(50) NOT NULL COMMENT 'Nome oficial do território',
-  `id_up` int(11) NOT NULL COMMENT 'Id do território de referência com nível hierarquico superior',
+CREATE TABLE `areas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=749 ;
+CREATE TABLE `hierarchy_areas_areas` (
+  `id` int(11) NOT NULL,
+  `id_up` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `hierarchy_units_areas` (
+  `id_unit` int(11) NOT NULL,
+  `id_area` int(11) NOT NULL,
+  PRIMARY KEY (`id_unit`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `units` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1591 ;
+CREATE TABLE `units_coord` (
+  `id_unit` int(11) NOT NULL,
+  `lat` float NOT NULL,
+  `lon` float NOT NULL,
+  PRIMARY KEY (`id_unit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 */
-//----------------------------------------------------------------------------------------------------------
+
+/*
+working sqls
+---
+select areas.id, areas.name, hierarchy_areas_areas.id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 order by areas.id
+---
+select concat("a_",areas.id) as id, areas.name as name, concat("a_",hierarchy_areas_areas.id_up) as id_up from areas, hierarchy_areas_areas where areas.id = hierarchy_areas_areas.id and hierarchy_areas_areas.id_up < 13 union select concat("u_",units.id) as id, units.name as name, concat("a_",hierarchy_units_areas.id_area) as id_up from units, hierarchy_units_areas where units.id = hierarchy_units_areas.id_unit order by id_up
+---
+*/
+
 ?>
 
 </div>
