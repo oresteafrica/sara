@@ -19,7 +19,7 @@
             font-family: "Arial";
         }
         #tree {
-            font-size:small;
+            font-size:x-small;
         }
         ul {
             list-style-type:none;

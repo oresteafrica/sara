@@ -9,12 +9,9 @@ $localhosts = array(
 if(in_array($_SERVER['REMOTE_ADDR'], $localhosts)) {
 ini_set('display_errors', '1');
 error_reporting(E_ALL | E_STRICT);
-require 'kint/Kint.class.php';
 }
 
-$debug = false;
-
-$ini_array = parse_ini_file('../../cron/moz.ini');
+$ini_array = parse_ini_file('../../cron/sara.ini');
 $sdsn = $ini_array['sdsn'];
 $user = $ini_array['user'];
 $pass = $ini_array['pass'];
@@ -29,33 +26,17 @@ try {
     die('Problemas de conexão à base de dados:<br/>' . $e);
 }
 
-$aous_level = create_array_from_table ($db, 'sara', 'id_up, id');
+$sql = 'SELECT areas.id AS id, areas.name AS name, CAST(hierarchy_areas_areas.id_up AS UNSIGNED) AS id_up, CONCAT("a_",areas.id) AS sid FROM areas, hierarchy_areas_areas WHERE areas.id = hierarchy_areas_areas.id AND hierarchy_areas_areas.id_up < 13 UNION SELECT (@cnt := @cnt + 1) AS id, units.name AS name, CAST(hierarchy_units_areas.id_area AS UNSIGNED) AS id_up, CONCAT("u_",units.id) AS sid FROM units, hierarchy_units_areas CROSS JOIN (SELECT @cnt := 10000) AS dummy WHERE units.id = hierarchy_units_areas.id_unit ORDER BY id, id_up';
+
+$array_table = create_array_from_tables ($db, $sql);
 
 ob_start();
-print_list($aous_level,1);
+print_list($array_table,1);
 $ulli = ob_get_clean();
-
 echo $ulli;
 
-if ($debug) {
-!Kint::dump( $aous_level );
-}
-
 //----------------------------------------------------------------------------------------------------------
-function print_list($array, $parent=0) {
-
-	if ( $parent>1) print '<ul>'; else print '<ul id="ultree">';
-    for($i=$parent, $ni=count($array); $i < $ni; $i++){
-        if ($array[$i]['id_up'] == $parent) {
-            print '<li>'.$array[$i]['name']. ' <span style="font-size:xx-small;">('.$array[$i]['id'].')</span>';
-            print_list($array, $array[$i]['id']);  # recurse
-            print '</li>';
-    }   }
-    print '</ul>';
-}
-//----------------------------------------------------------------------------------------------------------
-function create_array_from_table ($db, $table, $sort) {
-	$sql = "SELECT * FROM $table ORDER BY $sort ASC";
+function create_array_from_tables ($db, $sql) {
 	$tabquery = $db->query($sql);
 	$tabquery->setFetchMode(PDO::FETCH_ASSOC);
 	if ($tabquery->rowCount() < 1) { echo '<h1>A base de dados é vazia</h1>'; exit; }
@@ -66,11 +47,16 @@ function create_array_from_table ($db, $table, $sort) {
 	return $array_table;
 }
 //----------------------------------------------------------------------------------------------------------
-/*
-CREATE TABLE IF NOT EXISTS `sara` (
-  `id` int(11) NOT NULL COMMENT 'Numero de identificação interno. Não visível para o utente.',
-  `name` varchar(50) NOT NULL COMMENT 'Nome oficial do território',
-  `id_up` int(11) NOT NULL COMMENT 'Id do território de referência com nível hierarquico superior',
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-*/
+function print_list($array, $parent=0) {
+
+	if ( $parent>1) print '<ul>'; else print '<ul id="ultree">';
+    for($i=$parent, $ni=count($array); $i < $ni; $i++){
+        if ($array[$i]['id_up'] == $parent) {
+            print '<li><span id="'.$array[$i]['sid'].'">'.$array[$i]['name'].'</span>';
+            print_list($array, $array[$i]['id']);  # recurse
+            print '</li>';
+    }   }
+    print '</ul>';
+}
+//----------------------------------------------------------------------------------------------------------
 ?>

@@ -16,8 +16,8 @@
     box-sizing: border-box;
 }
 #tree {
-    float: left;
 	width: 10%;
+    font-size: xx-small;
 }
 #map {
     float: left;
