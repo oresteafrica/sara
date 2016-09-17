@@ -1,3 +1,6 @@
+div {
+    float: left;
+}
 .drop, .fix {
     text-align: center;
     border: 1px solid lightgrey;
@@ -8,7 +11,7 @@
 }
 .drop {
     box-sizing: border-box;
-    min-height: 400px;
+    min-height: 600px;
 }
 .fix {
     float: left;
@@ -17,15 +20,48 @@
 }
 #tree {
 	width: 10%;
-    font-size: xx-small;
+    font-size: x-small;
+    text-align:left;
+    padding:0;
+}
+#tree > ul {
+    padding-left:4px;
+	font-weight:bold;
+}
+#tree ul {
+	list-style-type:none;
+	padding-left:8px;
+}
+#tree ul ul {
+	display:none;
+	font-weight:normal;
+}
+#tree ul ul ul {
+	color:blue;
+}
+#tree span:hover {
+	background: lightblue;
+}
+#tree div {
+    float: left;
+	width: 100%;
+}
+#tree > div:first-child {
+    text-align:center;
+    padding-top:8px;
+    padding-bottom:8px;
+    border-bottom: 1px solid lightgrey;
+}
+#tree > div:first-child label {
+    float: left;
+	width: 100%;
+    margin-bottom:8px;
 }
 #map {
-    float: left;
-	width: 70%;
+	width: 60%;
 }
 #form {
-    float: left;
-	width: 20%;
+	width: 30%;
 }
 @media (max-width: 720px) {
 	#tree, #map, #form {

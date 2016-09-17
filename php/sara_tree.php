@@ -48,8 +48,7 @@ function create_array_from_tables ($db, $sql) {
 }
 //----------------------------------------------------------------------------------------------------------
 function print_list($array, $parent=0) {
-
-	if ( $parent>1) print '<ul>'; else print '<ul id="ultree">';
+	print '<ul>';
     for($i=$parent, $ni=count($array); $i < $ni; $i++){
         if ($array[$i]['id_up'] == $parent) {
             print '<li><span id="'.$array[$i]['sid'].'">'.$array[$i]['name'].'</span>';
