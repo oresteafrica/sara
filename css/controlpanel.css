@@ -61,10 +61,18 @@ div {
     border-collapse: collapse;
     font-size: xx-small;
     margin-left: 6px;
+    margin-bottom: 10px;
+    text-align:left;
+}
+#tree table tr > td:first-child {
+	font-weight:bold;
 }
 #tree table td {
     border: 1px solid lightgrey;
     padding: 2px;
+}
+.tdareacode {
+	display:none;
 }
 #map {
 	width: 60%;

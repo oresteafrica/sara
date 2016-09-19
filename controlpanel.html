@@ -13,13 +13,14 @@
     <div class="fix"><h2>Painel de controlo</h2></div>
     <div class="drop" id="tree">
         <div>
-            <table>
-                <tr><td>Província</td><td></td><td></td></tr>
-                <tr><td>Distrito</td><td></td><td></td></tr>
-                <tr><td>Unidade</td><td></td><td></td></tr>
+            <table id="tabinfo">
+				<tbody>
+					<tr><td>Província</td><td></td><td id="tdprovcode" class="tdareacode"></td></tr>
+					<tr><td>Distrito</td><td></td><td id="tddistcode" class="tdareacode"></td></tr>
+					<tr><td>Unidade</td><td></td><td id="tdunitcode" class="tdareacode"></td></tr>
+				</tbody>
             </table>
-            <label>Lugar</label>
-            <button type="button" disabled>Localiza</button>
+            <button id="bulocal" type="button" disabled>Localiza</button>
         </div>
         <div>
         </div>

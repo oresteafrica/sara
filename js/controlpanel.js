@@ -6,9 +6,8 @@ var curdir = curfile.substring(0, curfile.lastIndexOf('/'));
 init_tree(curdir);
 var map = init_map('#map');
 
-$('#tree').children('div').eq(0).children('button').click(function(){
-	var label = $('#tree').children('div').eq(0).children('label').html();
-	$('#form').html('<h2>'+label+'</h2>');
+$('#bulocal').click(function(){
+
 });
 
 
@@ -54,14 +53,39 @@ function init_tree(url) {
                 var h_t = $(this).text();
                 var h_i = this.id;
                 if (huup_t == '' && hup_t == '' ) {
-                    lugar.provname = $(this).text();
-                    lugar.provid = this.id;
+                    lugar.provname = h_t;
+                    lugar.provid = h_i;
+                    lugar.distname = '';
+                    lugar.distid = '';
+                    lugar.unitname = '';
+                    lugar.unitid = '';
+                    $('#bulocal').attr('disabled','true');
                 }
-				$('#tree').children('div').eq(0).children('label').html(
-                    huup_t+' ('+huup_i+') <br />'+
-                    hup_t+' ('+hup_i+') <br />'+
-                    h_t + ' ('+h_i+')'
-                );
+                if (huup_t == '' && hup_t != '' ) {
+                    lugar.provname = hup_t;
+                    lugar.provid = hup_i;
+                    lugar.distname = h_t;
+                    lugar.distid = h_i;
+                    lugar.unitname = '';
+                    lugar.unitid = '';
+                    $('#bulocal').removeAttr('disabled');
+                }
+                if (huup_t != '' && hup_t != '' ) {
+                    lugar.provname = huup_t;
+                    lugar.provid = huup_i;
+                    lugar.distname = hup_t;
+                    lugar.distid = hup_i;
+                    lugar.unitname = h_t;
+                    lugar.unitid = h_i;
+                    $('#bulocal').removeAttr('disabled');
+                }
+                var row = $('#tabinfo').children('tbody').eq(0).children('tr');
+				$(row).eq(0).children('td').eq(1).text(lugar.provname);
+				$(row).eq(0).children('td').eq(2).text(lugar.provid);
+				$(row).eq(1).children('td').eq(1).text(lugar.distname);
+				$(row).eq(1).children('td').eq(2).text(lugar.distid);
+				$(row).eq(2).children('td').eq(1).text(lugar.unitname);
+				$(row).eq(2).children('td').eq(2).text(lugar.unitid);
 			});
 		},
 		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
