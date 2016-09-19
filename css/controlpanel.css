@@ -57,11 +57,28 @@ div {
 	width: 100%;
     margin-bottom:8px;
 }
+#tree table {
+    border-collapse: collapse;
+    font-size: xx-small;
+    margin-left: 6px;
+}
+#tree table td {
+    border: 1px solid lightgrey;
+    padding: 2px;
+}
 #map {
 	width: 60%;
 }
 #form {
 	width: 30%;
+}
+#footer {
+    font-size: xx-small;
+    text-decoration: none;
+}
+#footer a {
+    text-decoration: none;
+    color: black;
 }
 @media (max-width: 720px) {
 	#tree, #map, #form {
