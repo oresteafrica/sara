@@ -1,26 +1,86 @@
-$( document ).ready(function() {
+$(document).ready(function() {
 var curfile = window.location.href ;
 var curdir = curfile.substring(0, curfile.lastIndexOf('/'));
 // alert(window.location.origin+'\n'+window.location.hostname+'\n'+curfile+'\n'+curdir);
 
 init_tree(curdir);
-var map = init_map('#map');
-
-$('#bulocal').click(function(){
-
-});
+init_map('#map');
+$('#fichas').accordion();
 
 
+/*
 
+https://github.com/carhartl/jquery-cookie#readme
 
+Create session cookie:
+
+$.cookie('name', 'value');
+Create expiring cookie, 7 days from then:
+
+$.cookie('name', 'value', { expires: 7 });
+Create expiring cookie, valid across entire site:
+
+$.cookie('name', 'value', { expires: 7, path: '/' });
+Read cookie:
+
+$.cookie('name'); // => "value"
+$.cookie('nothing'); // => undefined
+Read all available cookies:
+
+$.cookie(); // => { "name": "value" }
+Delete cookie:
+
+// Returns true when cookie was successfully deleted, otherwise false
+$.removeCookie('name'); // => true
+    
+*/
+    
 //----------------------------------------------------------------------------------------------------------------------
-function mark(map, lat, lng, title) {
-	var myLatlng = new google.maps.LatLng(lat, lng);
+$('#bulocal').click(function(){
+    var row = $('#tabinfo').children('tbody').eq(0).children('tr');
+    var unit_name = $(row).eq(2).children('td').eq(1).text();
+    var unit_code = $(row).eq(2).children('td').eq(2).text();
+    var unit_id_array = unit_code.split('_');
+    var unit_id = unit_id_array[1];
+    var prov_name = $(row).eq(1).children('td').eq(1).text();
+    var dist_name = $(row).eq(1).children('td').eq(1).text();
+    var tit_form = $('#form').children('div').eq(0);
+    $(tit_form).children('div').eq(1).text(prov_name);
+    $(tit_form).children('div').eq(3).text(dist_name);
+    $(tit_form).children('div').eq(5).text(unit_name);
+    var map = init_map('#map');
+    localise_unit_on_map(curdir,map,unit_name,unit_id);
+});
+//----------------------------------------------------------------------------------------------------------------------
+function localise_unit_on_map(curdir,map,unit_name,unit_id) {
+    	$.ajax({
+		url: curdir + '/php/sara_unit.php',
+        data: { n: unit_id },
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+            var latlon = a.split(';');
+            mark(map, latlon[0], latlon[1], unit_name);
+		},
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+
+}
+//----------------------------------------------------------------------------------------------------------------------
+function mark(map, lat, lon, title) {
+	var myLatLng = new google.maps.LatLng(lat, lon);
 	var marker = new google.maps.Marker({
 		position: myLatLng,
 		title: title
 	});
 	marker.setMap(map);
+    latlngbounds = new google.maps.LatLngBounds();
+    latlngbounds.extend(myLatLng);
+    map.setCenter(latlngbounds.getCenter());
+    map.fitBounds(latlngbounds);
+    if (map.getZoom() > 10) map.setZoom(10);
 }
 //----------------------------------------------------------------------------------------------------------------------
 function init_map(div) {
@@ -68,7 +128,7 @@ function init_tree(url) {
                     lugar.distid = h_i;
                     lugar.unitname = '';
                     lugar.unitid = '';
-                    $('#bulocal').removeAttr('disabled');
+                    $('#bulocal').attr('disabled','true');
                 }
                 if (huup_t != '' && hup_t != '' ) {
                     lugar.provname = huup_t;
@@ -91,6 +151,10 @@ function init_tree(url) {
 		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
 		complete: function(a,b){  }
 	});
+}
+//----------------------------------------------------------------------------------------------------------------------
+function formtitle() {
+
 }
 //----------------------------------------------------------------------------------------------------------------------
 /*
