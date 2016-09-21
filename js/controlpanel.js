@@ -5,36 +5,13 @@ var curdir = curfile.substring(0, curfile.lastIndexOf('/'));
 
 init_tree(curdir);
 init_map('#map');
-$('#fichas').accordion();
 
 
-/*
-
-https://github.com/carhartl/jquery-cookie#readme
-
-Create session cookie:
-
-$.cookie('name', 'value');
-Create expiring cookie, 7 days from then:
-
-$.cookie('name', 'value', { expires: 7 });
-Create expiring cookie, valid across entire site:
-
-$.cookie('name', 'value', { expires: 7, path: '/' });
-Read cookie:
-
-$.cookie('name'); // => "value"
-$.cookie('nothing'); // => undefined
-Read all available cookies:
-
-$.cookie(); // => { "name": "value" }
-Delete cookie:
-
-// Returns true when cookie was successfully deleted, otherwise false
-$.removeCookie('name'); // => true
-    
-*/
-    
+//----------------------------------------------------------------------------------------------------------------------
+$('#listform select').change(function(){
+	var tte = $('#selectform option:selected').text();
+	$('#fichas').html(tte);
+});
 //----------------------------------------------------------------------------------------------------------------------
 $('#bulocal').click(function(){
     var row = $('#tabinfo').children('tbody').eq(0).children('tr');
@@ -164,6 +141,24 @@ AIzaSyCIeZTMfIeXUkueMevGm5dizgIcmCFkKRo
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIeZTMfIeXUkueMevGm5dizgIcmCFkKRo&callback=initMap"
     async defer></script>
 
+Cookies
+
+https://github.com/carhartl/jquery-cookie#readme
+Create session cookie:
+$.cookie('name', 'value');
+Create expiring cookie, 7 days from then:
+$.cookie('name', 'value', { expires: 7 });
+Create expiring cookie, valid across entire site:
+$.cookie('name', 'value', { expires: 7, path: '/' });
+Read cookie:
+$.cookie('name'); // => "value"
+$.cookie('nothing'); // => undefined
+Read all available cookies:
+$.cookie(); // => { "name": "value" }
+Delete cookie:
+// Returns true when cookie was successfully deleted, otherwise false
+$.removeCookie('name'); // => true
+    
 */
 //----------------------------------------------------------------------------------------------------------------------
 

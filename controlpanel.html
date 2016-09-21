@@ -3,10 +3,7 @@
 <head>
 	<meta charset='utf-8'>
 	<link rel="stylesheet" href="css/controlpanel.css">
-	<link rel="stylesheet" href="css/jquery-ui.min.css">
-	<link rel="stylesheet" href="css/jquery-ui.theme.min.css">
 	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCIeZTMfIeXUkueMevGm5dizgIcmCFkKRo"></script>
 	<script type="text/javascript" src="js/controlpanel.js"></script>
 </head>
@@ -28,36 +25,25 @@
         <div>
         </div>
     </div>
-    <div class="drop" id="map">map</div>
+    <div class="drop" id="map"></div>
     <div class="drop" id="form">
-        <div>
+        <div class="inform" id="titform">
             <div>Província: </div><div></div><div>Distrito: </div><div></div><div>Unidade: </div><div></div>
         </div>
-        <div id="fichas">
-            <p>Unidade de dados</p>
-            <div>
-            <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-            </div>
-            <p>Ficha 2</p>
-            <div>
-            <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-            </div>
-            <p>Ficha 3</p>
-            <div>
-            <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-            </div>
-            <p>Ficha 4</p>
-            <div>
-            <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-            </div>
-            <p>Ficha 5</p>
-            <div>
-            <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-            </div>
-            <p>Ficha 6</p>
-            <div>
-            <p>Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-            </div>
+        <div class="inform" id="listform">
+			<select id="selectform">
+				<option>Unidade de dados</option>
+				<option></option>
+				<option></option>
+				<option></option>
+				<option></option>
+				<option></option>
+				<option></option>
+				<option></option>
+				<option></option>
+			</select>
+        </div>
+        <div class="inform" id="fichas">
         </div>
     </div>
     <div class="fix" id="footer">
