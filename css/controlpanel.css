@@ -96,16 +96,23 @@ div {
 #titform div:nth-child(odd) {
     font-weight: bold;
 }
-#ficha {
+#titform div:nth-child(7) {
+    display: none;
+}
+#form_elements {
     font-size: small;
 }
 #footer {
     font-size: xx-small;
     text-decoration: none;
+    padding:10px;
 }
 #footer a {
     text-decoration: none;
     color: black;
+}
+#footer a:hover {
+	background: lightblue;
 }
 @media (max-width: 720px) {
 	#tree, #map, #form {

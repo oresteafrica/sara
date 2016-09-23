@@ -6,12 +6,21 @@ var curdir = curfile.substring(0, curfile.lastIndexOf('/'));
 init_tree(curdir);
 init_map('#map');
 
-
 //----------------------------------------------------------------------------------------------------------------------
-$('#listform select').change(function(){
-	var tte = $('#selectform option:selected').text();
-	$('#fichas').html(tte);
-});
+function init_form_elements(curdir,div,unit_id) {
+    	$.ajax({
+		url: curdir + '/php/form_elements.php',
+        data: { n: unit_id },
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+            $('#form_elements').append(a);
+        },
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+}
 //----------------------------------------------------------------------------------------------------------------------
 $('#bulocal').click(function(){
     var row = $('#tabinfo').children('tbody').eq(0).children('tr');
@@ -19,14 +28,17 @@ $('#bulocal').click(function(){
     var unit_code = $(row).eq(2).children('td').eq(2).text();
     var unit_id_array = unit_code.split('_');
     var unit_id = unit_id_array[1];
-    var prov_name = $(row).eq(1).children('td').eq(1).text();
+    var prov_name = $(row).eq(0).children('td').eq(1).text();
     var dist_name = $(row).eq(1).children('td').eq(1).text();
-    var tit_form = $('#form').children('div').eq(0);
+    var tit_form = $('#form').children('div').eq(0);    
+    //alert('prov_name = '+prov_name+'\n'+'dist_name = '+dist_name+'\n'+'unit_name = '+unit_name);
     $(tit_form).children('div').eq(1).text(prov_name);
     $(tit_form).children('div').eq(3).text(dist_name);
     $(tit_form).children('div').eq(5).text(unit_name);
+    $('#divunitid').text(unit_id);
     var map = init_map('#map');
     localise_unit_on_map(curdir,map,unit_name,unit_id);
+    //init_form_elements(curdir,'#form_elements',unit_id);
 });
 //----------------------------------------------------------------------------------------------------------------------
 function localise_unit_on_map(curdir,map,unit_name,unit_id) {
@@ -43,7 +55,6 @@ function localise_unit_on_map(curdir,map,unit_name,unit_id) {
 		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
 		complete: function(a,b){  }
 	});
-
 }
 //----------------------------------------------------------------------------------------------------------------------
 function mark(map, lat, lon, title) {
