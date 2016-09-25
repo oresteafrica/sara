@@ -7,6 +7,14 @@ init_tree(curdir);
 init_map('#map');
 
 //----------------------------------------------------------------------------------------------------------------------
+$('edit_element').dblclick(function(){
+    alert(this.id);
+});
+//----------------------------------------------------------------------------------------------------------------------
+function edit_element() {
+    alert('php dovrà inserire id_unit e il nome della tabella');
+}
+//----------------------------------------------------------------------------------------------------------------------
 function init_form_elements(curdir,div,unit_id) {
     	$.ajax({
 		url: curdir + '/php/form_elements.php',
@@ -38,12 +46,12 @@ $('#bulocal').click(function(){
     $('#divunitid').text(unit_id);
     var map = init_map('#map');
     localise_unit_on_map(curdir,map,unit_name,unit_id);
-    //init_form_elements(curdir,'#form_elements',unit_id);
+    init_form_elements(curdir,'#form_elements',unit_id);
 });
 //----------------------------------------------------------------------------------------------------------------------
 function localise_unit_on_map(curdir,map,unit_name,unit_id) {
     	$.ajax({
-		url: curdir + '/php/sara_unit.php',
+		url: curdir + '/php/sara_coord.php',
         data: { n: unit_id },
 		type: 'GET',
 		dataType: 'html',
@@ -139,10 +147,6 @@ function init_tree(url) {
 		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
 		complete: function(a,b){  }
 	});
-}
-//----------------------------------------------------------------------------------------------------------------------
-function formtitle() {
-
 }
 //----------------------------------------------------------------------------------------------------------------------
 /*
