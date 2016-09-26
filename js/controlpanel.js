@@ -7,13 +7,10 @@ init_tree(curdir);
 init_map('#map');
 
 //----------------------------------------------------------------------------------------------------------------------
-$('edit_element').dblclick(function(){
+$(document).on('dblclick', '.edit_element', function() {
     alert(this.id);
+    document.getSelection().removeAllRanges();
 });
-//----------------------------------------------------------------------------------------------------------------------
-function edit_element() {
-    alert('php dovrà inserire id_unit e il nome della tabella');
-}
 //----------------------------------------------------------------------------------------------------------------------
 function init_form_elements(curdir,div,unit_id) {
     	$.ajax({
@@ -23,7 +20,7 @@ function init_form_elements(curdir,div,unit_id) {
 		dataType: 'html',
 		beforeSend: function(a){  },
 		success: function(a){
-            $('#form_elements').append(a);
+            $('#form_elements').html(a);
         },
 		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
 		complete: function(a,b){  }
@@ -47,6 +44,8 @@ $('#bulocal').click(function(){
     var map = init_map('#map');
     localise_unit_on_map(curdir,map,unit_name,unit_id);
     init_form_elements(curdir,'#form_elements',unit_id);
+    $(this).attr('disabled','true');
+
 });
 //----------------------------------------------------------------------------------------------------------------------
 function localise_unit_on_map(curdir,map,unit_name,unit_id) {

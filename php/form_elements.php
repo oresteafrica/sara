@@ -23,34 +23,58 @@ try {
     die('Problemas de conexão à base de dados:<br/>' . $e);
 }
 
-$html = array();
-$html[0] = '<table style="width:94%;"><tbody><tr style="font-size:xx-small;"><td style="border:1px solid lightgrey;cursor:pointer;width:20%;" ondblclick="alert(\'php dovrà inserire id_unit e il nome della tabella\')">';
+$loop_elements = array(
+    array('mz010',
+          'Endereço físico',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz011',
+          'Informação de contacto',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz012',
+          'Tipos de unidades',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz013',
+          'Autoridade gestora',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz014',
+          'Ministério de Tutela',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz015',
+          'Estado operacional',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz016',
+          'Data de construção',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz017',
+          'Data de início de funcionamento',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz018',
+          'Data da última requalificação',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz019',
+          'Data do último estado operacional',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz020',
+          'Data de alteração de dados da Unidade de Saúde',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz023',
+          'Tipos de serviços prestados',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1')
+);
 
-//$html[0] = '<table style="width:94%;"><tbody><tr style="font-size:xx-small;"><td style="border:1px solid lightgrey;cursor:pointer;width:20%;" id="edit_element_mz010" class="edit_element">';
-
-
-
-$html[1] = 'MZ-010';
-$html[2] = '</td><td style="border:1px solid lightgrey;width:80%;">';
-$html[3] = 'Endereço físico';
-$html[4] = '</td></tr><tr style="font-size:small;"><td colspan="2" style="border:1px solid lightgrey;">';
-$html[5] = '';
-$html[6] = '</td></tr></tbody></table>';
-
-$sql = 'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1';
-$tabquery = $db->query($sql);
-$tabquery->setFetchMode(PDO::FETCH_ASSOC);
-$row = $tabquery->fetch();
-if (! $row) {
-    $html[5] = 'Informação não disponível';
-} else {
-    $html[5] = $row['address'];
+foreach ($loop_elements as $element) {
+    $tabquery = $db->query($element[2]);
+    $tabquery->setFetchMode(PDO::FETCH_ASSOC);
+    $row = $tabquery->fetch();
+    if (! $row) {
+        $sqlres = 'Informação não disponível';
+    } else {
+        $sqlres = $row['address'];
+    }
+    $html = '<table style="width:94%;margin-bottom:8px;"><tbody><tr style="font-size:xx-small;"><td style="border:1px solid lightgrey;cursor:pointer;width:20%;" id="edit_element_'.$element[0].'" class="edit_element">'. strtoupper($element[0]).'</td><td style="border:1px solid lightgrey;width:80%;">'.$element[1].'</td></tr><tr style="font-size:small;"><td colspan="2" style="border:1px solid lightgrey;">'.$sqlres.'</td></tr></tbody></table>';
+    echo $html;
 }
 
-echo implode('', $html);
-
-$html[1] = 'MZ-011';
-$html[3] = 'Contacto';
 
 
 
