@@ -3,12 +3,18 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:8889
--- Generation Time: Sep 23, 2016 at 01:44 PM
+-- Generation Time: Sep 26, 2016 at 11:36 PM
 -- Server version: 5.5.34
 -- PHP Version: 5.5.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `sara`
@@ -3099,7 +3105,15 @@ CREATE TABLE `ministries` (
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `ministries`
+--
+
+INSERT INTO `ministries` (`id`, `name`, `description`) VALUES
+(1, 'Ministério da Saúde', ''),
+(2, 'Ministério do Género, Criança, Acção Social', '');
 
 -- --------------------------------------------------------
 
@@ -6435,6 +6449,14 @@ CREATE TABLE `unit_dates` (
   PRIMARY KEY (`id_unit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `unit_dates`
+--
+
+INSERT INTO `unit_dates` (`id_unit`, `build`, `first_fun`, `last_requal`, `last_oper`, `alter_data`) VALUES
+(1, '2000-03-14', '2016-06-13', '2015-12-13', '2016-06-22', '2016-09-01'),
+(2, '2001-09-01', '2016-09-13', '2016-09-10', '2016-07-10', '2016-09-16');
+
 -- --------------------------------------------------------
 
 --
@@ -6447,6 +6469,14 @@ CREATE TABLE `unit_ministry` (
   `date` date NOT NULL,
   PRIMARY KEY (`id_unit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `unit_ministry`
+--
+
+INSERT INTO `unit_ministry` (`id_unit`, `id_ministry`, `date`) VALUES
+(1, 1, '2016-09-26'),
+(2, 2, '2016-09-26');
 
 -- --------------------------------------------------------
 
@@ -6589,7 +6619,15 @@ CREATE TABLE `unit_unit_authority` (
   `id_authority` int(11) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id_unit`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `unit_unit_authority`
+--
+
+INSERT INTO `unit_unit_authority` (`id_unit`, `id_authority`, `date`) VALUES
+(1, 1, '2016-09-26'),
+(2, 4, '2016-09-26');
 
 -- --------------------------------------------------------
 
@@ -6630,3 +6668,15 @@ CREATE TABLE `unit_unit_type` (
   `date` date NOT NULL,
   PRIMARY KEY (`id_unit`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `unit_unit_type`
+--
+
+INSERT INTO `unit_unit_type` (`id_unit`, `id_type`, `date`) VALUES
+(1, 4, '2016-09-26'),
+(2, 1, '2016-09-26');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

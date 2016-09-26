@@ -5,10 +5,16 @@ var curdir = curfile.substring(0, curfile.lastIndexOf('/'));
 
 init_tree(curdir);
 init_map('#map');
+    
 
 //----------------------------------------------------------------------------------------------------------------------
+$('#tabinfo').children('tbody').eq(0).children('tr').eq(2).children('td').eq(1).dblclick(function(){
+    alert('Quer apagar '+$(this).text()+' ?');
+    document.getSelection().removeAllRanges();
+});
+//----------------------------------------------------------------------------------------------------------------------
 $(document).on('dblclick', '.edit_element', function() {
-    alert(this.id);
+    alert('Quer editar ?\n'+this.id);
     document.getSelection().removeAllRanges();
 });
 //----------------------------------------------------------------------------------------------------------------------
