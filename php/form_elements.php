@@ -29,7 +29,7 @@ $loop_elements = array(
           'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
     array('mz011',
           'Informação de contacto',
-          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+          'SELECT CONCAT( (SELECT contact_type.type FROM contact_type WHERE (SELECT contact.id_type FROM contact WHERE unit_contact.id_contact = contact.id) = contact_type.id ) , ": " , (SELECT contact.info FROM contact WHERE unit_contact.id_contact = contact.id) ) FROM unit_contact WHERE id_unit = '.$id_unit),
     array('mz012',
           'Tipos de unidades',
           'SELECT (SELECT unit_type.name FROM unit_type WHERE  unit_unit_type.id_type = unit_type.id) as type FROM  unit_unit_type WHERE id_unit = '.$id_unit),
@@ -41,7 +41,7 @@ $loop_elements = array(
           'SELECT (SELECT ministries.name FROM ministries WHERE unit_ministry.id_ministry = ministries.id) as ministry FROM unit_ministry WHERE id_unit = '.$id_unit),
     array('mz015',
           'Estado operacional',
-          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+          'SELECT (SELECT unit_state.name FROM unit_state WHERE unit_unit_state.id_state = unit_state.id) as state FROM unit_unit_state WHERE id_unit = '.$id_unit.' ORDER BY date DESC LIMIT 1'),
     array('mz016',
           'Data de construção',
           'SELECT DATE_FORMAT(build, "%d-%m-%y") as build FROM unit_dates WHERE id_unit = '.$id_unit),
@@ -59,7 +59,7 @@ $loop_elements = array(
           'SELECT DATE_FORMAT(alter_data, "%d-%m-%y") as alter_data FROM unit_dates WHERE id_unit = '.$id_unit),
     array('mz023',
           'Tipos de serviços prestados',
-          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1')
+          'SELECT (SELECT unit_service.name FROM unit_service WHERE unit_unit_service.id_service = unit_service.id) as service FROM unit_unit_service WHERE id_unit = '.$id_unit.' ORDER BY date DESC LIMIT 1')
 );
 
 foreach ($loop_elements as $element) {
@@ -76,7 +76,6 @@ foreach ($loop_elements as $element) {
 
 
 /*
-
 fake data test units id 1 and 2
 1 Sambula Lichinga Niassa
 2 Namacula Lichinga Niassa
