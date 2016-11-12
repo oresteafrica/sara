@@ -40,7 +40,7 @@ div {
 	color:blue;
 }
 #tree span:hover {
-	background: lightblue;
+	background-color: lightblue;
 }
 #tree div {
     float: left;
@@ -74,6 +74,9 @@ div {
 .tdareacode {
 	display:none;
 }
+#bulocal {
+    font-size: x-small;
+}
 #map {
 	width: 60%;
 }
@@ -98,6 +101,23 @@ div {
 }
 #titform div:nth-child(7) {
     display: none;
+}
+#titbut {
+    font-size: x-small;
+    display: none;
+}
+#titbut > div {
+	float:left;
+    margin-left: 4px;
+    margin-right: 4px;
+    border-radius: 4px;
+	background-color: lightgrey;
+	padding:4px;
+}
+#titbut > div:hover {
+	background-color: red;
+	color: white;
+	cursor: pointer;
 }
 #form_elements {
     font-size: small;

@@ -3,10 +3,20 @@ var curfile = window.location.href ;
 var curdir = curfile.substring(0, curfile.lastIndexOf('/'));
 // alert(window.location.origin+'\n'+window.location.hostname+'\n'+curfile+'\n'+curdir);
 
-init_tree(curdir);
-init_map('#map');
-    
+var debug = false;
 
+if (debug) {
+	debug_tree(curdir);
+} else {
+	init_tree(curdir);
+	init_map('#map');
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+$('#titbut').children('div').click(function(){
+	ix = $(this).index();
+	alert(ix);
+});
 //----------------------------------------------------------------------------------------------------------------------
 $('#tabinfo').children('tbody').eq(0).children('tr').eq(2).children('td').eq(1).dblclick(function(){
     alert('Quer apagar '+$(this).text()+' ?');
@@ -51,7 +61,7 @@ $('#bulocal').click(function(){
     localise_unit_on_map(curdir,map,unit_name,unit_id);
     init_form_elements(curdir,'#form_elements',unit_id);
     $(this).attr('disabled','true');
-
+    $('#titbut').show();
 });
 //----------------------------------------------------------------------------------------------------------------------
 function localise_unit_on_map(curdir,map,unit_name,unit_id) {
@@ -148,6 +158,20 @@ function init_tree(url) {
 				$(row).eq(2).children('td').eq(1).text(lugar.unitname);
 				$(row).eq(2).children('td').eq(2).text(lugar.unitid);
 			});
+		},
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+}
+//----------------------------------------------------------------------------------------------------------------------
+function debug_tree(url) {
+	$.ajax({
+		url: url+ '/php/debug_tree.php',
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+			$('#map').html(a);
 		},
 		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
 		complete: function(a,b){  }

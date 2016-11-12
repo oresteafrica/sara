@@ -1,0 +1,35 @@
+div {
+    float:left;
+    border:1px solid lightgrey;
+    min-height:600px;
+}
+#main {
+	font-family:"Arial";
+    width:100%;
+}
+#input, #output {
+	width:40%;
+	height:300px;
+	padding:6px;
+	overflow-y:scroll;
+}
+#input {
+	margin-right:10px;
+    border:1px solid lightblue;
+}
+#output {
+    border:1px solid red;
+}
+#units {
+	border-collapse:collapse;
+	font-size:x-small;
+}
+#units td {
+    border:1px solid black;
+    padding:2px;
+}
+#units td:first-child:hover {
+	cursor:pointer;
+	background-color:red;
+	color:white;
+}
