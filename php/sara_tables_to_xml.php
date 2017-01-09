@@ -23,7 +23,7 @@ try {
     die('Problemas de conexão à base de dados:<br/>' . $e);
 }
 
-$reftabs = ['unit_type', 'unit_authority', 'unit_state', 'unit_service'];
+$reftabs = ['unit_type', 'unit_authority', 'ministries', 'unit_state', 'unit_service'];
 
 echo '<?xml version="1.0" encoding="UTF-8"?><reftabs>';
 
