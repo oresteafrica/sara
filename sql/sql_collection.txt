@@ -1,0 +1,1 @@
+UPDATE  `units` SET  `short_name` = REPLACE(  `short_name` ,  ' ',  '' )
