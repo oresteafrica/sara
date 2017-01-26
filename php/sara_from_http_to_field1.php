@@ -17,11 +17,9 @@ $opts = array(
 	PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
 );
 
-$ok = false;
-
 try {
-    $db = new PDO($sdsn, $user, $pass, $opts);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    	$db = new PDO($sdsn, $user, $pass, $opts);
+    	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	$fields_type = [];
 	$sql = 'SHOW COLUMNS FROM from_field_1';
@@ -31,38 +29,46 @@ try {
 	foreach ($rows as $row) {
 		$fields_type[$row['Field']] = $row['Type'];
 	}
-
-
-
 } catch(PDOException $e) {
-    die('Problemas de conexão à base de dados:<br/>' . $e);
+	file_put_contents('debug.txt', $e);
+	    die('Problemas de conexão à base de dados:<br/>' . $e);
 }
 
 try {
-    $db = new PDO($sdsn, $user, $pass, $opts);
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    	$db = new PDO($sdsn, $user, $pass, $opts);
+    	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 	$fields_to_insert = implode(',', array_keys($_GET));
-	$values_to_insert = '';
+	$values = [];
 	foreach($_GET as $k => $v) {
-
-// deve servire per discriminare fra stringhe, numeri e date nel $values_to_insert
-
+		switch ( substr($fields_type[$k],0,3) ) {
+			case 'int':
+				array_push($values,$v);
+				break;
+			case 'var':
+				array_push($values,'"'.$v.'"');
+				break;
+			case 'dat':
+				array_push($values,'"'.$v.'"');
+				break;
+			case 'tin':
+				array_push($values,$v);
+				break;
+			case 'flo':
+				array_push($values,$v);
+				break;
+			default:
+				array_push($values,$v);
+		}
 	}
-
+	$values_to_insert = implode(',', $values);
 	$sql = 'INSERT INTO from_field_1 (' . $fields_to_insert . ') VALUES (' . $values_to_insert . ')' ;
-
 	$db->exec($sql);
-
+	echo '1';
+	file_put_contents('debug.txt', $sql);
 } catch(PDOException $e) {
-    die('Problemas de conexão à base de dados:<br/>' . $e);
+	file_put_contents('debug.txt', $e);
+    	die('Problemas de conexão à base de dados:<br/>' . $e);
 }
-
-
-
-
-
-if ($ok) { echo 'OK'; } else { echo 0; }
-
 
 ?>

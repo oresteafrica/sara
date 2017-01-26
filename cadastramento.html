@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+
+
+//----------------------------------------------------------------------------------------------------------------------
+        $('#gravar').click(function(){
+			var res = grecaptcha.getResponse();
+			alert(res);
+			if (res.length > 10) {
+			}
+        });
+//----------------------------------------------------------------------------------------------------------------------
+
+
+		});
+	</script>
+	<style>
+		body {
+		    background-color:white;
+		}
+		div {
+		    float:left;
+		    width:100%;
+    	    margin-bottom:20px;
+    	    font-size:normal;
+		}
+	</style>
+</head>
+<body>
+    <div id="ficha">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Nome completo</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="cad01"></td>
+                </tr>
+                <tr>
+                    <td>Endereço email</td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="cad02"></td>
+                </tr>
+                <tr>
+                    <td>Número celular</td>
+                </tr>
+                <tr>
+                    <td><input type="text" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" id="cad03"></td>
+                </tr>
+                <tr>
+                    <td>Senha escolhida</td>
+                </tr>
+                <tr>
+                    <td><input type="password" id="cad04"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<div class="g-recaptcha" data-sitekey="6Lc6QxMUAAAAAHgd8JKpFp3v-UjfJZBtUYpM5D5t"></div>
+    <div>
+        <button id="gravar">Gravar</button>
+    </div>
+
+</body>
+</html>

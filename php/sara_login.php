@@ -42,7 +42,7 @@ $se = $_GET['se'];
 $se = stripslashes($se);
 $se = $db->quote($se);
 
-$sql = 'SELECT id FROM officer WHERE name = '.$no.' AND email = '.$em.' AND cell = '.$ce.' AND psw = '.$se ;
+$sql = 'SELECT id FROM officer WHERE name = '.$no.' AND email = '.$em.' AND cell = '.$ce.' AND psw = '.$se.' AND active = 1' ;
 
 $tabquery = $db->query($sql);
 $tabquery->setFetchMode(PDO::FETCH_ASSOC);
