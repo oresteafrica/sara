@@ -11,12 +11,41 @@
 
 //----------------------------------------------------------------------------------------------------------------------
         $('#gravar').click(function(){
+
+	        var curfile = window.location.href;
+    	    var curdir = curfile.substring(0, curfile.lastIndexOf('/')+1);
+
 			var res = grecaptcha.getResponse();
-			alert(res);
-			if (res.length > 10) {
-			}
+			if (res.length < 100) { return; }
+
+			var datastring = '?' +  'cad01='+$('#cad01').val() + 
+									'&cad02='+$('#cad02').val() + 
+									'&cad03='+$('#cad03').val() + 
+									'&cad04='+$('#cad04').val() + 
+									'&g-recaptcha-response='+res ;
+			var url = curdir + 'php/sara_register.php';
+
+    		$.ajax({
+				url: url + datastring,
+				type: 'GET',
+				dataType: 'html',
+				beforeSend: function(a){  },
+				success: function(a){ 
+					//$('#debug').html(a);
+					if (a=1) {
+						alert('Dados enviados com sucesso');
+						window.location.reload(true); 
+					} else {
+						alert('Houve problemas de conexão. Tente mais tarde.');
+					}
+				},
+				error: function(a,b,c){ alert('Houve problemas de conexão. Tente mais tarde.'); },
+				complete: function(a,b){  }
+			});
+
         });
 //----------------------------------------------------------------------------------------------------------------------
+
 
 
 		});
@@ -31,35 +60,42 @@
     	    margin-bottom:20px;
     	    font-size:normal;
 		}
+		span {
+    	    margin-left:2px;
+    	    font-size:x-small;
+		}
 	</style>
 </head>
 <body>
+    <div id="head">
+		<h2>Cadastramento para a ferramenta móvel do SARA</h2>
+	</div>
     <div id="ficha">
         <table>
             <tbody>
                 <tr>
-                    <td>Nome completo</td>
+                    <td>Nome completo<br /><span>(A primeira letra não pode ser espaço)</span></td>
                 </tr>
                 <tr>
-                    <td><input type="text" id="cad01"></td>
+                    <td><input type="text" onkeyup="this.value=this.value.replace(/^ /g,'');" id="cad01"></td>
                 </tr>
                 <tr>
-                    <td>Endereço email</td>
+                    <td>Endereço email<br /><span>(Não pode conter espaços)</span></td>
                 </tr>
                 <tr>
-                    <td><input type="text" id="cad02"></td>
+                    <td><input type="text" onkeyup="this.value=this.value.replace(/ /g,'');" id="cad02"></td>
                 </tr>
                 <tr>
-                    <td>Número celular</td>
+                    <td>Número celular<br /><span>(só números)</span></td>
                 </tr>
                 <tr>
                     <td><input type="text" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" id="cad03"></td>
                 </tr>
                 <tr>
-                    <td>Senha escolhida</td>
+                    <td>Senha escolhida<br /><span>(Não pode conter espaços)</span></td>
                 </tr>
                 <tr>
-                    <td><input type="password" id="cad04"></td>
+                    <td><input type="password" onkeyup="this.value=this.value.replace(/ /g,'');" id="cad04"></td>
                 </tr>
             </tbody>
         </table>
@@ -68,6 +104,6 @@
     <div>
         <button id="gravar">Gravar</button>
     </div>
-
+	<div id="debug"></div>
 </body>
 </html>
