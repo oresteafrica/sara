@@ -43,6 +43,7 @@ try {
 	foreach($_GET as $k => $v) {
 		switch ( substr($fields_type[$k],0,3) ) {
 			case 'int':
+				if ($v == NULL) { $v = 0; }
 				array_push($values,$v);
 				break;
 			case 'var':
@@ -55,6 +56,7 @@ try {
 				array_push($values,$v);
 				break;
 			case 'flo':
+				if ($v == NULL) { $v = 0; }
 				array_push($values,$v);
 				break;
 			default:
@@ -65,7 +67,7 @@ try {
 	$sql = 'INSERT INTO from_field_1 (' . $fields_to_insert . ') VALUES (' . $values_to_insert . ')' ;
 	$db->exec($sql);
 	echo '1';
-	file_put_contents('debug.txt', $sql);
+	//file_put_contents('debug.txt', $sql);
 } catch(PDOException $e) {
 	file_put_contents('debug.txt', $e);
     	die('Problemas de conexão à base de dados:<br/>' . $e);
