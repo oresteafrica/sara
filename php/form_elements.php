@@ -24,6 +24,39 @@ try {
 }
 
 $loop_elements = array(
+/*
+    array('mz010',
+          'Endereço físico',
+          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+
+select (select areas.name from areas where areas.id = hierarchy_units_areas.id_area) as distrito from hierarchy_units_areas where hierarchy_units_areas.id_unit = 40
+
+*/
+
+    array('mz001',
+          'Código',
+          'SELECT code FROM unit_code WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz003',
+          'Nome',
+          'SELECT name FROM units WHERE id = '.$id_unit),
+    array('mz004',
+          'Nome curto',
+          'SELECT short_name FROM units WHERE id = '.$id_unit),
+    array('mz005',
+          'Localização',
+          'SELECT loc FROM unit_loc WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+
+// mz006
+
+    array('mz007',
+          'Distrito',
+          'select (select areas.name from areas where areas.id = hierarchy_units_areas.id_area) as distrito from hierarchy_units_areas where hierarchy_units_areas.id_unit = '.$id_unit),
+    array('mz008',
+          'Posto Administrativo',
+          'SELECT pa FROM unit_pa WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
+    array('mz009',
+          'Localidade',
+          'SELECT place FROM unit_place WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
     array('mz010',
           'Endereço físico',
           'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
@@ -57,19 +90,53 @@ $loop_elements = array(
     array('mz020',
           'Data de alteração de dados da Unidade de Saúde',
           'SELECT DATE_FORMAT(alter_data, "%d-%m-%y") as alter_data FROM unit_dates WHERE id_unit = '.$id_unit),
+    array('mz022',
+          'Consultas externas apenas (sem internamento)',
+          'SELECT IF (COUNT(*) = 0,"Não","Sim") FROM unit_cons_ext WHERE id_unit = '.$id_unit),
     array('mz023',
           'Tipos de serviços prestados',
-          'SELECT (SELECT unit_service.name FROM unit_service WHERE unit_unit_service.id_service = unit_service.id) as service FROM unit_unit_service WHERE id_unit = '.$id_unit.' ORDER BY date DESC LIMIT 1')
+          'SELECT (SELECT unit_service.name FROM unit_service WHERE unit_unit_service.id_service = unit_service.id) as service FROM unit_unit_service WHERE id_unit = '.$id_unit),
+
+    array('mz025',
+          'Altitude',
+          'SELECT alt FROM units_coord WHERE id_unit = '.$id_unit),
+    array('mz026',
+          'Latitude',
+          'SELECT lat FROM units_coord WHERE id_unit = '.$id_unit),
+    array('mz027',
+          'Longitude',
+          'SELECT lon FROM units_coord WHERE id_unit = '.$id_unit)
+
 );
+
+$cumulative = array('mz023');
+
 
 foreach ($loop_elements as $element) {
     $tabquery = $db->query($element[2]);
-    $row = $tabquery->fetch();
-    if (! $row) {
-        $sqlres = 'Informação não disponível';
-    } else {
-        $sqlres = $row[0];
-    }
+	if ( in_array($element[0],$cumulative)) {
+	    $row = $tabquery->fetchAll();
+	} else {
+	    $row = $tabquery->fetch();
+	}
+
+	$sqlres = 'Informação não disponível';
+    if ( $row ) {
+		if ( $row[0] != Null ) {
+			$crow = count($row[0]);
+			if ( $crow == 1 ) {
+				$sqlres = $row[0];
+			} else {
+				$sqlres = '';
+				foreach ( $row as $rr ) {
+					$sqlres .= $rr[0] . '<br />' ;
+				}
+			}
+		}
+	}
+
+
+
     $html = '<table style="width:94%;margin-bottom:8px;"><tbody><tr style="font-size:xx-small;"><td style="border:1px solid lightgrey;cursor:pointer;width:20%;" id="edit_element_'.$element[0].'" class="edit_element">'. strtoupper($element[0]).'</td><td style="border:1px solid lightgrey;width:80%;">'.$element[1].'</td></tr><tr style="font-size:small;"><td colspan="2" style="border:1px solid lightgrey;">'.$sqlres.'</td></tr></tbody></table>';
     echo $html;
 }

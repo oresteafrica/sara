@@ -51,12 +51,6 @@ $('#bulocal').click(function(){
     var unit_id = unit_id_array[1];
     var prov_name = $(row).eq(0).children('td').eq(1).text();
     var dist_name = $(row).eq(1).children('td').eq(1).text();
-    var tit_form = $('#form').children('div').eq(0);    
-    //alert('prov_name = '+prov_name+'\n'+'dist_name = '+dist_name+'\n'+'unit_name = '+unit_name);
-    $(tit_form).children('div').eq(1).text(prov_name);
-    $(tit_form).children('div').eq(3).text(dist_name);
-    $(tit_form).children('div').eq(5).text(unit_name);
-    $('#divunitid').text(unit_id);
     var map = init_map('#map');
     localise_unit_on_map(curdir,map,unit_name,unit_id);
     init_form_elements(curdir,'#form_elements',unit_id);
