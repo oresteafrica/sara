@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+		//--------------------------------------------------------------------------------------------------------------
+		entry_list(0);
+
+
+
+		//--------------------------------------------------------------------------------------------------------------
+		$('#data_from_field').on('click', 'table tbody > tr > td:first-of-type', function(){
+			var rec = $(this).index() + 1;
+			entry_list(rec);
+		});
+		//--------------------------------------------------------------------------------------------------------------
+		function entry_list(n) {
+			var rr = parseInt(Math.random()*99+1);
+			if (n==0) {
+				var url = 'php/sara_entries_from_field.php?rr='+rr;
+			} else {
+				var url = 'php/sara_entries_from_field.php?rr='+rr+'&n='+n;
+			}
+	    	$.ajax({
+				url: url,
+				type: 'GET',
+				dataType: 'html',
+				cache: false,
+				beforeSend: function(a){  },
+				success: function(a){
+					$('#data_from_field').html(a);
+				},
+				error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+				complete: function(a,b){  }
+			});
+		}
+		//--------------------------------------------------------------------------------------------------------------
+		});
+	</script>
+	<style>
+		body {
+		    background-color:white;
+			font-family:Arial;
+			font-size:normal;
+		}
+		div {
+			border:thin solid black;
+			text-align:center;
+		}
+		button {
+			margin-left:6px;
+		}
+		#main {
+		    width:100%;
+		}
+		.row {
+		    width:100%;
+		    float:left;
+		}
+		.column {
+		    width:49%;
+		}
+		.third {
+		    width:32%;
+		}
+		#controls {
+		}
+		#container {
+		}
+		#control_table {
+			border-collapse:collapse;
+		    width:100%;
+		}
+		#control_table td {
+			border:thin solid black;
+			padding-bottom:10px;
+		    width:33%;
+		}
+		#from_field {
+		    float:left;
+		}
+		#from_source {
+		    float:right;
+		}
+		#header_from_field {
+			background-color:lightblue;
+		    float:left;
+		}
+		#header_from_source {
+			background-color:lightgreen;
+		    float:right;
+		}
+		#header_from_field, #header_from_source {
+			height:60px;
+			font-size:small;
+		}
+		#data_from_field {
+		    float:left;
+		}
+		#data_from_field table tbody > tr:hover {
+			background-color:yellow;
+		}
+		#data_from_field table tbody > tr > td:first-of-type:hover {
+			cursor:pointer;
+		}
+		#data_from_source {
+		    float:right;
+		}
+		.headspan {
+			display:block;
+		    width:100%;
+			margin-top:6px;
+			margin-bottom:6px;
+		}
+	</style>
+</head>
+<body>
+<div id="main">
+    <div id="header" class="row"><h2>Ferramenta de validação SARA</h2></div>
+    <div id="sub-header" class="row"><p>Correspondência baseada em</p></div>
+    <div id="controls" class="row">
+		<table id="control_table">
+			<tbody>
+				<tr>
+					<td>
+						<p><input name="control_radio" type="radio" /> Território</p>
+						<select class="select_list" id="list_provinces"></select>
+						<select class="select_list" id="list_districts"></select>
+					</td>
+					<td>
+						<p><input name="control_radio" type="radio" /> Coordenadas</p>
+						<span>Coord from field</span> <button>Comparar no mapa</button>
+						
+					</td>
+					<td>
+						<p><input name="control_radio" type="radio" /> Nome da US</p>
+						<span>Nome da ficha do campo</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <div id="container" class="row">
+	    <div id="from_field" class="column">
+		    <div id="header_from_field" class="row">
+				<span class="headspan">Dados provenientes do campo</span>
+				<select id="select_data_field">
+				<option value="0">Validação por campo</option>
+				<option value="1">Validar todos</option>
+				<option value="2">Rejeitar todos</option>
+				<option value="3">Amalgamar todos</option>
+				</select>
+				<button>OK</button>
+			</div>
+		    <div id="data_from_field" class="row"></div>
+		</div>
+    	<div id="from_source" class="column">
+		    <div id="header_from_source" class="row">
+				<span class="headspan">Dados provenientes da fonte de referência</span>
+				<select id="source_list"><option>Escolhe</option></select>
+			</div>
+		    <div id="data_from_source" class="row"></div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

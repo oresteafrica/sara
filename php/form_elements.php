@@ -111,7 +111,6 @@ select (select areas.name from areas where areas.id = hierarchy_units_areas.id_a
 
 $cumulative = array('mz023');
 
-
 foreach ($loop_elements as $element) {
     $tabquery = $db->query($element[2]);
 	if ( in_array($element[0],$cumulative)) {
@@ -120,7 +119,7 @@ foreach ($loop_elements as $element) {
 	    $row = $tabquery->fetch();
 	}
 
-	$sqlres = 'Informação não disponível';
+	$sqlres = '<span style="font-weight:normal;font-size:xx-small;color:grey;">Informação não disponível<span>';
     if ( $row ) {
 		if ( $row[0] != Null ) {
 			$crow = count($row[0]);

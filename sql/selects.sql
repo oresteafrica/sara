@@ -126,9 +126,35 @@ SELECT (SELECT areas.name FROM areas WHERE areas.id = hierarchy_areas_areas.id_u
 "Maputo cidade","39"
 "Maputo","112"
 
+SELECT (SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário, ( SELECT name FROM areas WHERE areas.id = from_field_1.MZ006) as Província FROM from_field_1 ORDER BY Usuário
 
+SELECT (SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário, COUNT(op_id) as Num FROM from_field_1 GROUP BY op_id
 
+Usuário					Num 	
+Oreste Parlatano		15
+Stefano Marmorato		5
+Marcelino Jaime Mugai	10
+Martins Miranda Junior	5
+Nathan					3
+Vânia da Mira Afonso	1
+Zainabe Dadá			5
+paulo					3
+Frenque Sérgio Sitóe	1
+jose chauque			1
 
+SELECT (SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário, COUNT(op_id) as Num FROM from_field_1 GROUP BY op_id ORDER BY Usuário
 
+SELECT (SELECT areas.name FROM areas WHERE areas.id = from_field_1.mz006) AS Províncias, COUNT(mz006) as Num FROM from_field_1 GROUP BY mz006 ORDER BY mz006
 
+Províncias		Num 	
+Niassa			6
+Cabo Delgado	7
+Nampula			2
+Tete			1
+Zambezia		4
+Sofala			1
+Gaza			4
+Inhambane		2
+Maputo cidade	16
+Maputo			6
 
