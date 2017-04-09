@@ -9,6 +9,22 @@ div {
 	font-family: "Arial";
     width:100%;
 }
+.headiv {
+    float: left;
+}
+#hl, #hr {
+	width:20%;
+}
+#hr {
+}
+#hl {
+}
+#hc {
+	width:60%;
+}
+#pdc_login input {
+    width:60px;
+}
 .drop {
     box-sizing: border-box;
     min-height: 600px;
@@ -74,9 +90,6 @@ div {
 .tdareacode {
 	display:none;
 }
-#bulocal {
-    font-size: x-small;
-}
 #map {
 	width: 60%;
 }
@@ -101,23 +114,6 @@ div {
 }
 #titform div:nth-child(7) {
     display: none;
-}
-#titbut {
-    font-size: x-small;
-    display: none;
-}
-#titbut > div {
-	float:left;
-    margin-left: 4px;
-    margin-right: 4px;
-    border-radius: 4px;
-	background-color: lightgrey;
-	padding:4px;
-}
-#titbut > div:hover {
-	background-color: red;
-	color: white;
-	cursor: pointer;
 }
 #form_elements {
     font-size: small;

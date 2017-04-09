@@ -29,7 +29,7 @@ try {
 	$permitted = $rows['active'];
 	
 } catch(PDOException $e) {
-	file_put_contents('debug.txt', $e);
+	file_put_contents('debug_from_field.txt', $e);
 	echo '0';
 	die(0);
 }

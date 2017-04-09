@@ -24,15 +24,6 @@ try {
 }
 
 $loop_elements = array(
-/*
-    array('mz010',
-          'Endereço físico',
-          'SELECT address FROM unit_address WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
-
-select (select areas.name from areas where areas.id = hierarchy_units_areas.id_area) as distrito from hierarchy_units_areas where hierarchy_units_areas.id_unit = 40
-
-*/
-
     array('mz001',
           'Código',
           'SELECT code FROM unit_code WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
@@ -45,9 +36,12 @@ select (select areas.name from areas where areas.id = hierarchy_units_areas.id_a
     array('mz005',
           'Localização',
           'SELECT loc FROM unit_loc WHERE id_unit = '.$id_unit.'  ORDER BY date DESC LIMIT 1'),
-
-// mz006
-
+    array('mz006',
+          'Província',
+          'SELECT
+(SELECT areas.name FROM areas WHERE areas.id IN (SELECT  hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (SELECT areas.id FROM areas WHERE areas.id = hierarchy_units_areas.id_area))) AS província
+FROM hierarchy_units_areas 
+WHERE hierarchy_units_areas.id_unit = '.$id_unit),
     array('mz007',
           'Distrito',
           'select (select areas.name from areas where areas.id = hierarchy_units_areas.id_area) as distrito from hierarchy_units_areas where hierarchy_units_areas.id_unit = '.$id_unit),
@@ -119,7 +113,7 @@ foreach ($loop_elements as $element) {
 	    $row = $tabquery->fetch();
 	}
 
-	$sqlres = '<span style="font-weight:normal;font-size:xx-small;color:grey;">Informação não disponível<span>';
+	$sqlres = '<span style="font-weight:normal;font-size:xx-small;color:grey;">Informação não disponível</span>';
     if ( $row ) {
 		if ( $row[0] != Null ) {
 			$crow = count($row[0]);

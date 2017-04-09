@@ -158,3 +158,147 @@ Inhambane		2
 Maputo cidade	16
 Maputo			6
 
+//--------------------------------------------
+
+SELECT
+(SELECT areas.id FROM areas WHERE areas.id = hierarchy_units_areas.id_area) AS id_area, 
+(SELECT areas.name FROM areas WHERE areas.id = hierarchy_units_areas.id_area) AS distrito,
+(SELECT  hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id = id_area) AS up,
+(SELECT areas.name FROM areas WHERE areas.id = up) AS província
+FROM hierarchy_units_areas 
+WHERE hierarchy_units_areas.id_unit = 1
+
+id_area	distrito 	up 	província 	
+16 		Lichinga 	2 	Niassa
+
+//--------------------------------------------
+
+SELECT
+(SELECT areas.name FROM areas WHERE areas.id = hierarchy_units_areas.id_area) AS distrito,
+(SELECT  hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (SELECT areas.id FROM areas WHERE areas.id = hierarchy_units_areas.id_area)) AS up,
+(SELECT areas.name FROM areas WHERE areas.id = up) AS província
+FROM hierarchy_units_areas 
+WHERE hierarchy_units_areas.id_unit = 1
+
+distrito 	up 	província 	
+Lichinga 	2 	Niassa
+
+//--------------------------------------------
+
+SELECT
+(SELECT areas.name FROM areas WHERE areas.id = hierarchy_units_areas.id_area) AS distrito,
+(SELECT areas.name FROM areas WHERE areas.id IN (SELECT  hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (SELECT areas.id FROM areas WHERE areas.id = hierarchy_units_areas.id_area))) AS província
+FROM hierarchy_units_areas 
+WHERE hierarchy_units_areas.id_unit = 1
+
+distrito 	província 	
+Lichinga 	Niassa
+
+//--------------------------------------------
+
+SELECT
+(SELECT areas.name FROM areas WHERE areas.id IN (SELECT  hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (SELECT areas.id FROM areas WHERE areas.id = hierarchy_units_areas.id_area))) AS província
+FROM hierarchy_units_areas 
+WHERE hierarchy_units_areas.id_unit = 1
+
+província 	
+Niassa
+
+//--------------------------------------------
+
+SELECT
+(SELECT areas.id FROM areas WHERE areas.id IN (SELECT  hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (SELECT areas.id FROM areas WHERE areas.id = hierarchy_units_areas.id_area))) AS província
+FROM hierarchy_units_areas 
+WHERE hierarchy_units_areas.id_unit = 1
+
+província 	
+2
+
+//--------------------------------------------
+
+SELECT hierarchy_units_areas.id_area FROM hierarchy_units_areas WHERE hierarchy_units_areas.id_unit = 1
+
+id_area: 16
+
+//--------------------------------------------
+
+SELECT hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (
+SELECT hierarchy_units_areas.id_area FROM hierarchy_units_areas WHERE hierarchy_units_areas.id_unit = 1
+)
+
+id_up: 2
+
+//--------------------------------------------
+
+SELECT hierarchy_areas_areas.id
+FROM hierarchy_areas_areas
+WHERE hierarchy_areas_areas.id_up IN (
+SELECT hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (
+SELECT hierarchy_units_areas.id_area FROM hierarchy_units_areas WHERE hierarchy_units_areas.id_unit = 1
+)
+)
+
+id: 13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28
+
+//--------------------------------------------
+
+SELECT areas.id, areas.name FROM areas WHERE areas.id IN (
+SELECT hierarchy_areas_areas.id
+FROM hierarchy_areas_areas
+WHERE hierarchy_areas_areas.id_up IN (
+SELECT hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id IN (
+SELECT hierarchy_units_areas.id_area FROM hierarchy_units_areas WHERE hierarchy_units_areas.id_unit = 1
+)
+)
+)
+
+id	name
+13 	Chimbonila
+14 	Cuamba
+15 	Lago
+16 	Lichinga
+17 	Majune
+18 	Mandimba
+19 	Marrupa
+20 	Maúa
+21 	Mavago
+22 	Mecanhelas
+23 	Mecula
+24 	Metarica
+25 	Muembe
+26 	N'gaúma
+27 	Nipepe
+28 	Sanga
+
+//--------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

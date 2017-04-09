@@ -12,6 +12,12 @@ if (debug) {
 	init_map('#map');
 }
 
+$('#pdc_login').dialog({ autoOpen: false, modal: true });
+$('#edit_field').dialog({ autoOpen: false, modal: true });
+
+destroy_session();
+user_session();
+
 //----------------------------------------------------------------------------------------------------------------------
 $('#titbut').children('div').click(function(){
 	ix = $(this).index();
@@ -24,24 +30,206 @@ $('#tabinfo').children('tbody').eq(0).children('tr').eq(2).children('td').eq(1).
 });
 //----------------------------------------------------------------------------------------------------------------------
 $(document).on('dblclick', '.edit_element', function() {
-    alert('Quer editar ?\n'+this.id);
-    document.getSelection().removeAllRanges();
-});
-//----------------------------------------------------------------------------------------------------------------------
-function init_form_elements(curdir,div,unit_id) {
-    	$.ajax({
-		url: curdir + '/php/form_elements.php',
-        data: { n: unit_id },
+	var mz_id = this.id.substring(13);
+    $.ajax({
+		url: curdir + '/php/check_session.php',
 		type: 'GET',
 		dataType: 'html',
 		beforeSend: function(a){  },
 		success: function(a){
-            $('#form_elements').html(a);
-        },
+			if ( a == 1 ) {
+				sara_edit_field(mz_id);
+			} else {
+				$('#pdc_login input').eq(0).val('');
+				$('#pdc_login input').eq(1).val('');
+				$('#pdc_login input').eq(2).val('');
+				$('#pdc_login img').attr('src',curdir + '/php/png_code.php?'+ (Math.random() * (90) + 10) );
+				$('#pdc_login').dialog('open');
+			}
+		},
 		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
 		complete: function(a,b){  }
 	});
-}
+    document.getSelection().removeAllRanges();
+});
+//----------------------------------------------------------------------------------------------------------------------
+$(document).on('click', '.bu_sara_edit', function() {
+	var id_bu = this.id;
+	var key = id_bu.substr(13,5);
+	var val = $(this).siblings('.sara_edit_field_chosen_value').eq(0).val();
+    var row = $('#tabinfo').children('tbody').eq(0).children('tr');
+    var unit_name = $(row).eq(2).children('td').eq(1).text();
+    var unit_code = $(row).eq(2).children('td').eq(2).text();
+    var unit_id_array = unit_code.split('_');
+    var unit_id = unit_id_array[1];
+
+//	alert(id_bu+'\n'+key+'\n'+val+'\n'+unit_id); // debug
+
+	switch (key) {
+		case 'mz001':
+			skey = 'Código da unidade';
+			if(val.length > 16) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz003':
+			skey = 'Nome da unidade';
+			if(val.length > 255) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz004':
+			skey = 'Nome curto da unidade';
+			if(val.length > 10) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz005':
+			skey = 'Localização da unidade';
+			if(val.length > 255) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz006':
+			alert('não autorizado'); return false;
+			skey = 'Província';
+			if(val < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz007':
+			skey = 'Distrito';
+			if(val.length > 50) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz008':
+			skey = 'Posto Administrativo';
+			if(val.length > 255) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz009':
+			skey = 'Localidade';
+			if(val.length > 255) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz010':
+			skey = 'Endereço fisico';
+			if(val.length > 255) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz011':
+			alert('trabalho em curso'); return false;
+			skey = 'Informação de contacto';
+			if(val.length > 255) { alert(skey+' longo \n('+val+')'); return false; }
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz012':
+			skey = 'Tipo de unidade';
+			if(val < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz013':
+			skey = 'Autoridade gestora';
+			if(val < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz014':
+			skey = 'Ministério de tutela';
+			if(val < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz015':
+			skey = 'Estado operacional';
+			if(val < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz016':
+			alert('trabalho em curso'); return false;
+			skey = 'Data de construção';
+			if(! valid(val)) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz017':
+			alert('trabalho em curso'); return false;
+			skey = 'Data de ínicio';
+			if(! valid(val)) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz018':
+			alert('trabalho em curso'); return false;
+			skey = 'Data última requalificação';
+			if(! valid(val)) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz019':
+			alert('trabalho em curso'); return false;
+			skey = 'Data do último estado operacional';
+			if(! valid(val)) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz020':
+			alert('trabalho em curso'); return false;
+			skey = 'Data alteração de dados da Unidade de Saúde';
+			if(! valid(val)) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz022':
+			alert('trabalho em curso'); return false;
+			skey = 'Consultas externas apenas';
+			if(val > 1 || val < 0) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz023': 
+			alert('trabalho em curso'); return false;
+			skey = 'Tipos de serviços prestados';
+			if(val < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz023_c':
+			alert('trabalho em curso'); return false;
+			skey = 'Tipos de serviços prestados';
+			if(val.length < 1) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz025':
+			skey = 'Altitude';
+			if( isNaN(val) ) { alert('Falta '+skey+' (pode ser 0)'); return false; }
+			break;
+		case 'mz026':
+			skey = 'Latitude';
+			if( isNaN(val) ) { alert('Falta '+skey); return false; }
+			break;
+		case 'mz027':
+			skey = 'Longitude';
+			if( isNaN(val) ) { alert('Falta '+skey); return false; }
+			break;
+	}
+
+    $.ajax({
+		url: curdir + '/php/sara_db_insert.php',
+        data: { key: key, val: val, unit_id: unit_id },
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+			$('#edit_field').dialog('close');
+		    init_form_elements(curdir,'#form_elements',unit_id);
+		},
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+
+
+
+});
+//----------------------------------------------------------------------------------------------------------------------
+$('#pdc_login button').click(function(){
+	var no = $('#pdc_login input').eq(0).val();
+	var se = $('#pdc_login input').eq(1).val();
+	var ca = $('#pdc_login input').eq(2).val();
+	var wo = Math.random().toString(36).substring(2, 10);
+	var ws = wo.substring(0,3)+se+wo.substring(3,10);
+    $.ajax({
+		url: curdir + '/php/pdc_login.php',
+        data: { no: no, ws: ws, ca: ca },
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+			$('#pdc_login').dialog('close');
+			if ( a == 1 ) {
+				alert('Pode proceder com a editação');
+			} else {
+				$('#hr').html('');
+				alert('O usuário não é autorizado');
+			}
+		},
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+});
 //----------------------------------------------------------------------------------------------------------------------
 $('#bulocal').click(function(){
     var row = $('#tabinfo').children('tbody').eq(0).children('tr');
@@ -58,8 +246,77 @@ $('#bulocal').click(function(){
     $('#titbut').show();
 });
 //----------------------------------------------------------------------------------------------------------------------
-function localise_unit_on_map(curdir,map,unit_name,unit_id) {
+function sara_edit_field(mz_id) {
+
+	if ( mz_id == 'mz011' ) {
+		alert('Trabalho em curso'); return;
+	}
+
+    var row = $('#tabinfo').children('tbody').eq(0).children('tr');
+    var unit_name = $(row).eq(2).children('td').eq(1).text();
+    var unit_code = $(row).eq(2).children('td').eq(2).text();
+    var unit_id_array = unit_code.split('_');
+    var unit_id = unit_id_array[1];
+    $.ajax({
+		url: curdir + '/php/sara_edit_field.php',
+        data: { fn: mz_id, id: unit_id},
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+			$('#edit_field').html(a);
+			$('#edit_field').dialog('open');
+		},
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+}
+//----------------------------------------------------------------------------------------------------------------------
+function user_session() {
+    $.ajax({
+		url: curdir + '/php/user_session.php',
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+			$('#hr').html(a);
+		},
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+}
+//----------------------------------------------------------------------------------------------------------------------
+function destroy_session() {
+    $.ajax({
+		url: curdir + '/php/destroy_session.php',
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+			$('#hr').html('');
+		},
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+}
+//----------------------------------------------------------------------------------------------------------------------
+function init_form_elements(curdir,div,unit_id) {
     	$.ajax({
+		url: curdir + '/php/form_elements.php',
+        data: { n: unit_id },
+		type: 'GET',
+		dataType: 'html',
+		beforeSend: function(a){  },
+		success: function(a){
+            $('#form_elements').html(a);
+        },
+		error: function(a,b,c){ alert('erro ajax\na = ' + a.responseText + '\nb = ' + b + '\nc = ' + c ); },
+		complete: function(a,b){  }
+	});
+}
+//----------------------------------------------------------------------------------------------------------------------
+function localise_unit_on_map(curdir,map,unit_name,unit_id) {
+    $.ajax({
 		url: curdir + '/php/sara_coord.php',
         data: { n: unit_id },
 		type: 'GET',

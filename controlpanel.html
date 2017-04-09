@@ -3,13 +3,19 @@
 <head>
 	<meta charset='utf-8'>
 	<link rel="stylesheet" href="css/controlpanel.css">
+	<link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.min.css">
 	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCIeZTMfIeXUkueMevGm5dizgIcmCFkKRo"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIeZTMfIeXUkueMevGm5dizgIcmCFkKRo"></script>
 	<script type="text/javascript" src="js/controlpanel.js"></script>
 </head>
 <body>
 <div class="container">
-    <div class="fix"><h2>Painel de controlo</h2></div>
+    <div class="fix">
+		<div class="headiv" id="hl">&nbsp;</div>
+		<div class="headiv" id="hc"><h2>Painel de controlo</h2></div>
+		<div class="headiv" id="hr"></div>
+	</div>
     <div class="drop" id="tree">
         <div>
             <table id="tabinfo">
@@ -26,14 +32,30 @@
     </div>
     <div class="drop" id="map"></div>
     <div class="drop" id="form">
-        <div class="inform" id="titbut">
-			<div>Validar</div><div>amalgamar</div><div>Invalidar</div><div>Apagar</div>
-        </div>
         <div class="inform" id="form_elements"></div>
     </div>
     <div class="fix" id="footer">
         <a href="http://www.moasis.org.mz/" target="_blank">&copy; Moasis</a> - <a href="http://www.jembi.org/" target="_blank">&copy; Jembi</a> - <a href="https://en.wikipedia.org/wiki/Comparison_of_free_and_open-source_software_licenses" target="_blank">Licença</a> - <a href="https://github.com/oresteafrica/sara" target="_blank">Fonte aberta</a> - <a onclick="javascript:alert('trabalho em curso')" href="" target="_blank">Manual</a> - <a href="https://youtu.be/S8V5jUQtXY4" target="_blank">Apresentação</a>
     </div>
 </div>
+<!--                      Dialogs                             -->
+<!-- ini login -->
+<div id="pdc_login">
+	<table>
+		<tbody>
+			<tr><td><label>Usuário</label></td><td><input type="text" /></td></tr>
+			<tr><td><label>Senha</label></td><td><input type="password" /></td></tr>
+			<tr><td><img alt="captcha" /></td><td><input type="text" /></td></tr>
+			<tr><td></td><td><button>OK</button></td></tr>
+		</tbody>
+    </table>
+</div>
+<!-- end login -->
+
+<!-- ini edit field -->
+<div id="edit_field">
+</div>
+<!-- end edit field -->
+
 </body>
 </html>

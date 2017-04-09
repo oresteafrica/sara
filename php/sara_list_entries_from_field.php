@@ -87,6 +87,7 @@ if (check_get('n')) {
 	$form .= '<table><tbody>';
 	$trs_service = '';
 	$trs_mz200 = '<tr><td colspan="2" style="font-weight:bold;">Pessoal</td></tr>';
+	$count200 = 0;
 
 	foreach ($row as $k => $v) {
 		if ($k == 'Tipos de serviços prestados') {
@@ -103,20 +104,23 @@ if (check_get('n')) {
 			continue;
 		}
 
-	if ( substr($k,0,5) == 'mz200' ) {
-		if ( $v > 0 ) {
-			$mz200_code = substr($k,6,5);
-			$mz200_time = substr($k,12,2);
-			$mz200_nat = substr($k,15,1);
-			$mz200_sex = substr($k,16,1);
-			$sql_mz200 = 'SELECT name FROM personnel WHERE code = "'. $mz200_code . '"';
-			$tabquery_mz200 = $db->query($sql_mz200);
-			$tabquery_mz200->setFetchMode(PDO::FETCH_ASSOC);
-			$row_mz200 = $tabquery_mz200->fetch();
-			$form .= '<tr><td>'.$row_mz200['name'].'</td><td>'.$v.'</td></tr>'."\n";
-		}
+		if ( substr($k,0,5) == 'mz200' ) {
+			if ( $v > 0 ) {
+				if ($count200==0) { $form .= '<tr style="background-color:lightgrey;text-align:center;">'.
+					'<td colspan="2">Secção 2A - Pessoal (MZ200)</td></tr>'."\n"; }
+				$mz200_code = substr($k,6,5);
+				$mz200_time = (substr($k,12,2)=='TI')?'Tempo inteiro':'Tempo parcial';
+				$mz200_nat = (substr($k,15,1)=='N')?'Nacional':'Estrangeiro';
+				$mz200_sex = (substr($k,16,1)=='M')?'Homem':'Mulher';
+				$sql_mz200 = 'SELECT name FROM personnel WHERE code = "'. $mz200_code . '"';
+				$tabquery_mz200 = $db->query($sql_mz200);
+				$tabquery_mz200->setFetchMode(PDO::FETCH_ASSOC);
+				$row_mz200 = $tabquery_mz200->fetch();
+				$form .= '<tr><td>'.$row_mz200['name'].', '.$mz200_time.', '.$mz200_nat.', '.$mz200_sex.'</td><td>'.$v.'</td></tr>'."\n";
+				$count200++;
+			}
 		continue;
-	}
+		}
 		
 		$form .= '<tr><td>'.$k.'</td><td>'.$v.'</td></tr>'."\n";
 
