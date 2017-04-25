@@ -273,16 +273,107 @@ id	name
 //--------------------------------------------
 
 
+SELECT id, (SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário, DATE_FORMAT(in_date, "%d/%m/%Y") as Data, MZ001 as "Código da unidade", MZ003 as "Nome da unidade", MZ004 as "Nome curto da unidade", MZ005 as "Localização da unidade", ( SELECT name FROM areas WHERE areas.id = from_field_1.MZ006) as Província, MZ007 as Distrito, Mz008 as "Posto Administrativo", Mz009 as "Localidade", Mz010 as "Endereço físico", Mz011 as "Informação de contacto", (SELECT name FROM unit_type WHERE unit_type.id = from_field_1.MZ012 ) as "Tipo de unidade", (SELECT name FROM unit_authority WHERE unit_authority.id = from_field_1.MZ013 ) as "Autoridade gestora", (SELECT name FROM ministries WHERE ministries.id = from_field_1.MZ014 ) as "Ministério de Tutela", (SELECT name FROM unit_state WHERE unit_state.id = from_field_1.MZ015 ) as "Estado operacional", DATE_FORMAT(MZ016, "%d/%m/%Y") as "Data de construção", DATE_FORMAT(MZ017, "%d/%m/%Y") as "Data de início de funcionamento", DATE_FORMAT(MZ018, "%d/%m/%Y") as "Data da última requalificação", DATE_FORMAT(MZ019, "%d/%m/%Y") as "Data do último estado operacional", DATE_FORMAT(MZ020, "%d/%m/%Y") as "Data de alteração de dados da Unidade de Saúde", if(MZ022, "Sim", "Não") as "Consultas externas apenas (sem internamento)", MZ023_c as "Tipos de serviços prestados", MZ025 as "Altitude (metros)", MZ026 as "Latitude (sistema WGS84)", MZ027 as "Longitude (sistema WGS84)", ' . $s_fields . ' FROM from_field_1 WHERE id = 1
+
+id 	Usuário 	Data 	Código da unidade 	Nome da unidade 	Nome curto da unidade 	Localização da unidade 	Província 	Distrito 	Posto Administrativo 	Localidade 	Endereço físico 	Informação de contacto 	Tipo de unidade 	Autoridade gestora 	Ministério de Tutela 	Estado operacional 	Data de construção 	Data de início de funcionamento 	Data da última requalificação 	Data do último estado operacional 	Data de alteração de dados da Unidade de Saúde 	Consultas externas apenas (sem internamento) 	Tipos de serviços prestados 	Altitude (metros) 	Latitude (sistema WGS84) 	Longitude (sistema WGS84) 	. $s_fields . 	
+1 	Oreste Parlatano 	25/01/2017 	Aaaaaaaaass 	Bbbbbbbbbh 	abc 	Fyuhfdety 	Maputo cidade 	Ffffffff 	Hhhhhhh 	Jjjjjjjj 	Asdfghhjj 	Cguhgdwethh 	Centro de Saúde Urbano B 	Privado-Lucrativo 	NULL	Fechada 	24/01/2017 	19/08/2011 	19/08/2011 	02/05/2006 	13/03/2007 	Sim 	1,3,5,10,11,12 	100 	-25.9529 	32.6058
+
+//--------------------------------------------
+
+SELECT id, (SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário, DATE_FORMAT(in_date, "%d/%m/%Y") as Data, ( SELECT name FROM areas WHERE areas.id = from_field_1.MZ006) as Província, MZ007 as Distrito, MZ003 as "Nome da US" FROM from_field_1 ORDER BY in_date
+
+id	 	Usuário 			Data 		Província 		Distrito 	Nome da US 	
+1	 	Oreste Parlatano 	25/01/2017 	Maputo cidade 	Ffffffff 	Bbbbbbbbbh
+2 		Oreste Parlatano 	25/01/2017 	Maputo cidade 	Ffffffff 	Bbbbbbbbbh
+3 		Oreste Parlatano 	01/02/2017 	Gaza 	Falso 	Fictícia
+...
+
+//--------------------------------------------
+
+SELECT id, (SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário, DATE_FORMAT(in_date, "%d/%m/%Y") as Data, ( SELECT name FROM areas WHERE areas.id = from_field_1.MZ006) as Província, ( SELECT name FROM areas WHERE areas.id = from_field_1.MZ007_n ) as Distrito, ( SELECT name FROM units WHERE units.id = from_field_1.MZ003_n ) as "Nome da US" FROM from_field_1 ORDER BY in_date
+
+id	 	Usuário 			Data 		Província 		Distrito 	Nome da US
+...
+58 		Oreste Parlatano 	18/04/2017 	Zambezia 		Lugela 		Munhamade
+
+//--------------------------------------------
+
+SELECT
+	id,
+	(SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário,
+	DATE_FORMAT(in_date, "%d/%m/%Y") as Data,
+	( SELECT name FROM areas WHERE areas.id = from_field_1.MZ006) as Província,
+	CASE WHEN from_field_1.MZ007_n = 0
+		THEN
+			MZ007
+		ELSE
+			( SELECT name FROM areas WHERE areas.id = from_field_1.MZ007_n )
+	END as Distrito,
+	CASE WHEN from_field_1.MZ003_n = 0
+		THEN
+			MZ003
+		ELSE
+			( SELECT name FROM units WHERE units.id = from_field_1.MZ003_n )
+	END as "Nome da US"
+	FROM from_field_1
+	ORDER BY in_date
 
 
+id	 	Usuário 				Data 		Província 		Distrito 	Nome da US
+...
+55 		Vânia da Mira Afonso 	17/03/2017 	Maputo 			Kamuub 		Centro de saude Xipamanine
+56 		Frenque Sérgio Sitóe 	17/03/2017 	Niassa 			Tt 			Tt
+57 		Oreste Parlatano 		24/03/2017 	Niassa 			hgvhg 		prova mz200 01
+58 		Oreste Parlatano 		18/04/2017 	Zambezia 		Lugela 		Munhamade
 
+//--------------------------------------------
 
+SELECT
+	id,
+	(SELECT name FROM officer WHERE officer.id = from_field_1.op_id) as Usuário,
+	DATE_FORMAT(in_date, "%d/%m/%Y") as Data,
+	MZ001 as "Código da unidade",
+	CASE WHEN from_field_1.MZ003_n = 0
+		THEN
+			MZ003
+		ELSE
+			( SELECT name FROM units WHERE units.id = from_field_1.MZ003_n )
+	END as "Nome da US",
+	MZ004 as "Nome curto da unidade",
+	MZ005 as "Localização da unidade",
+	( SELECT name FROM areas WHERE areas.id = from_field_1.MZ006) as Província,
+	CASE WHEN from_field_1.MZ007_n = 0
+		THEN
+			MZ007
+		ELSE
+			( SELECT name FROM areas WHERE areas.id = from_field_1.MZ007_n )
+	END as Distrito,
+	Mz008 as "Posto Administrativo",
+	Mz009 as "Localidade",
+	Mz010 as "Endereço físico",
+	Mz011 as "Informação de contacto",
+	(SELECT name FROM unit_type WHERE unit_type.id = from_field_1.MZ012 ) as "Tipo de unidade",
+	(SELECT name FROM unit_authority WHERE unit_authority.id = from_field_1.MZ013 ) as "Autoridade gestora",
+	(SELECT name FROM ministries WHERE ministries.id = from_field_1.MZ014 ) as "Ministério de Tutela",
+	(SELECT name FROM unit_state WHERE unit_state.id = from_field_1.MZ015 ) as "Estado operacional",
+	DATE_FORMAT(MZ016, "%d/%m/%Y") as "Data de construção",
+	DATE_FORMAT(MZ017, "%d/%m/%Y") as "Data de início de funcionamento",
+	DATE_FORMAT(MZ018, "%d/%m/%Y") as "Data da última requalificação",
+	DATE_FORMAT(MZ019, "%d/%m/%Y") as "Data do último estado operacional",
+	DATE_FORMAT(MZ020, "%d/%m/%Y") as "Data de alteração de dados da Unidade de Saúde",
+	if(MZ022, "Sim", "Não") as "Consultas externas apenas (sem internamento)",
+	MZ023_c as "Tipos de serviços prestados",
+	MZ025 as "Altitude (metros)",
+	MZ026 as "Latitude (sistema WGS84)",
+	MZ027 as "Longitude (sistema WGS84)"
+FROM from_field_1
+WHERE id = 
 
+1 	Oreste Parlatano 	25/01/2017 	Aaaaaaaaass 	Bbbbbbbbbh 	abc 	Fyuhfdety 	Maputo cidade 	Ffffffff 	Hhhhhhh 	Jjjjjjjj 	Asdfghhjj 	Cguhgdwethh 	Centro de Saúde Urbano B 	Privado-Lucrativo 	NULL	Fechada 	24/01/2017 	19/08/2011 	19/08/2011 	02/05/2006 	13/03/2007 	Sim 	1,3,5,10,11,12 	100 	-25.9529 	32.6058
 
+58 	Oreste Parlatano 	18/04/2017 	ygvygv 	Munhamade 	hg h 	gfcgfc 	Zambezia 	Lugela 	hf hf 	yfvyfv 	yfcyfc 	yfvyfv 	Hospital Geral 	Privado-Lucrativo 	NULL	Não existe 	18/04/2017 	18/04/2011 	18/04/2017 	18/04/2017 	18/04/2017 	Não 	1,5,8,9,16,20,27,31,33 	0 	0 	0
 
-
-
-
+//--------------------------------------------
 
 
 

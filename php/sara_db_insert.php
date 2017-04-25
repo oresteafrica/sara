@@ -53,7 +53,7 @@ switch ($key) {
 		if (strlen($val) > 255) { exit; }
 		if (strlen($val) < 1) { exit; }
 //		$sql = 'UPDATE unit_loc SET loc = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_loc SET loc = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_loc (loc,date,id_unit) VALUES("'.$val.'", "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz007':
 		$skey = 'Distrito';
@@ -64,21 +64,21 @@ switch ($key) {
 		$skey = 'Posto Administrativo';
 		if( is_nan($val) ) { exit; }
 //		$sql = 'UPDATE unit_pa SET pa = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_pa SET pa = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_pa (pa,date,id_unit) VALUES("'.$val.'", "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz009':
 		$skey = 'Localidade';
 		if (strlen($val) > 255) { exit; }
 		if (strlen($val) < 1) { exit; }
 //		$sql = 'UPDATE unit_place SET place = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_place SET place = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_place (place,date,id_unit) VALUES("'.$val.'", "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz010':
 		$skey = 'Endereço fisico';
 		if (strlen($val) > 255) { exit; }
 		if (strlen($val) < 1) { exit; }
 //		$sql = 'UPDATE unit_address SET address = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_address SET address = "'.$val.'", date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_code (address,date,id_unit) VALUES("'.$val.'", "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz011':
 /*
@@ -109,25 +109,25 @@ CREATE TABLE `unit_contact` (
 		$skey = 'Tipo de unidade';
 		if( is_nan($val) ) { exit; }
 //		$sql = 'UPDATE unit_unit_type SET id_type = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_unit_type SET id_type = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_unit_type (id_type,date,id_unit) VALUES('.$val.', "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz013':
 		$skey = 'Autoridade gestora';
 		if( is_nan($val) ) { exit; }
 //		$sql = 'UPDATE unit_unit_authority SET id_authority = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_unit_authority SET id_authority = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_unit_authority (id_authority,date,id_unit) VALUES('.$val.', "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz014':
 		$skey = 'Ministério de tutela';
 		if( is_nan($val) ) { exit; }
 //		$sql = 'UPDATE unit_ministry SET id_ministry = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_ministry SET id_ministry = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_ministry (id_ministry,date,id_unit) VALUES('.$val.', "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz015':
 		$skey = 'Estado operacional';
 		if( is_nan($val) ) { exit; }
 //		$sql = 'UPDATE unit_unit_state SET id_state = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
-		$sql = 'UPDATE unit_unit_state SET id_state = '.$val.', date = "'.$today_mysql.'" WHERE id_unit = '.$unit_id;
+		$sql = 'INSERT INTO unit_unit_state (id_state,date,id_unit) VALUES('.$val.', "'.$today_mysql.'", '.$unit_id.')';
 		break;
 	case 'mz023': 													// <------------- !!!!
 		$skey = 'Tipos de serviços prestados';
