@@ -375,7 +375,118 @@ WHERE id =
 
 //--------------------------------------------
 
+SELECT
+(SELECT areas.id FROM areas WHERE areas.id = hierarchy_areas_areas.id) AS ids,
+(SELECT areas.name FROM areas WHERE areas.id = hierarchy_areas_areas.id) AS distrito
+FROM hierarchy_areas_areas 
+WHERE hierarchy_areas_areas.id_up = 2
 
+ids distrito 	
+13 	Chimbonila
+14 	Cuamba
+15 	Lago
+16 	Lichinga
+17 	Majune
+18 	Mandimba
+19 	Marrupa
+20 	Maúa
+21 	Mavago
+22 	Mecanhelas
+23 	Mecula
+24 	Metarica
+25 	Muembe
+26 	N'gaúma
+27 	Nipepe
+28 	Sanga
+
+//--------------------------------------------
+
+SELECT areas.id, areas.name FROM areas WHERE areas.id IN (
+SELECT hierarchy_areas_areas.id
+FROM hierarchy_areas_areas
+WHERE hierarchy_areas_areas.id_up IN (
+SELECT hierarchy_areas_areas.id_up FROM hierarchy_areas_areas WHERE hierarchy_areas_areas.id_up = 2
+)
+)
+
+id	name
+13 	Chimbonila
+14 	Cuamba
+15 	Lago
+16 	Lichinga
+17 	Majune
+18 	Mandimba
+19 	Marrupa
+20 	Maúa
+21 	Mavago
+22 	Mecanhelas
+23 	Mecula
+24 	Metarica
+25 	Muembe
+26 	N'gaúma
+27 	Nipepe
+28 	Sanga
+
+//--------------------------------------------
+
+SELECT
+(SELECT areas.id FROM areas WHERE areas.id = from_field_1.mz007_n) AS id_dist, 
+(SELECT areas.name FROM areas WHERE areas.id = from_field_1.mz007_n) AS dist, 
+COUNT(mz007_n) as Num 
+FROM from_field_1 
+GROUP BY mz007_n
+
+d_dist 	dist 	Num 	
+NULL	NULL	57
+100 	Lugela 	1
+
+//--------------------------------------------
+
+SELECT
+(SELECT areas.id FROM areas WHERE areas.id = from_field_1.mz007_n) AS id_dist, 
+(SELECT areas.name FROM areas WHERE areas.id = from_field_1.mz007_n) AS dist, 
+COUNT(mz007_n) as Num 
+FROM from_field_1 
+WHERE mz006 = 2
+GROUP BY mz007_n
+
+id_dist dist 	Num 	
+NULL	NULL	9
+
+//--------------------------------------------
+
+SELECT
+(SELECT areas.name FROM areas WHERE areas.id = from_field_1.mz007_n) AS dist, 
+COUNT(mz007_n) as Num 
+FROM from_field_1 
+WHERE mz006 = 2
+GROUP BY mz007_n
+ORDER BY mz007_n DESC
+
+dist 	Num 	
+NULL	9
+
+//--------------------------------------------
+
+SELECT
+(SELECT unit_type.name FROM unit_type WHERE unit_type.id = from_field_1.mz012) AS Tipo, 
+COUNT(mz012) as Num 
+FROM from_field_1 
+WHERE mz006 = 2
+GROUP BY mz012
+ORDER BY mz012 DESC
+
+Tipo 						Num 	
+Centro de Saúde Rural Ii 	2
+Posto de Saúde 				7
+
+//--------------------------------------------
+
+SELECT (SELECT unit_type.name FROM unit_type WHERE unit_type.id = from_field_1.mz012) AS Tipologia, 
+COUNT(mz012) as Num 
+FROM from_field_1 
+GROUP BY mz012 
+ORDER BY mz012
 
 
 
