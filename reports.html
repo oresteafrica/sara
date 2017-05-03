@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8'>
+	<link rel="stylesheet" href="css/reports.css">
+	<link rel="stylesheet" href="js/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+	<script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/reports.js"></script>
+	<title>Relatórios</title>
+</head>
+<body>
+
+<div id="main">
+	<div id="title">
+		<p>SARA - Relatórios dos dados provenientes dos formulários no terreno</p>
+	</div>
+	<div id="menu">
+		<ul id="menu-bar">
+			<li><span id="">Formulários</span>
+				<ul>
+					<li><span id="sara_report_form_list">Lista completa</span></li>
+					<li><span id="sara_report_form_excel">Exportação</span></li>
+					<li><span id="sara_report_ter_provs">Moçambique</span></li>
+					<li><span id="sara_report_ter_dist_nias">Niassa</span></li>
+					<li><span id="sara_report_ter_dist_cabo">Cabo Delgado</span></li>
+					<li><span id="sara_report_ter_dist_namp">Nampula</span></li>
+					<li><span id="sara_report_ter_dist_tete">Tete</span></li>
+					<li><span id="sara_report_ter_dist_zamb">Zambezia</span></li>
+					<li><span id="sara_report_ter_dist_mani">Manica</span></li>
+					<li><span id="sara_report_ter_dist_sofa">Sofala</span></li>
+					<li><span id="sara_report_ter_dist_gaza">Gaza</span></li>
+					<li><span id="sara_report_ter_dist_inha">Inhambane</span></li>
+					<li><span id="sara_report_ter_dist_mapc">Maputo Cidade</span></li>
+					<li><span id="sara_report_ter_dist_mapd">Maputo</span></li>
+				</ul>
+			</li>
+			<li><span id="">Tipológia</span>
+				<ul>
+					<li><span id="sara_report_tip_moz">Moçambique</span></li>
+					<li><span id="sara_report_tip_dist_nias">Niassa</span></li>
+					<li><span id="sara_report_tip_dist_cabo">Cabo Delgado</span></li>
+					<li><span id="sara_report_tip_dist_namp">Nampula</span></li>
+					<li><span id="sara_report_tip_dist_tete">Tete</span></li>
+					<li><span id="sara_report_tip_dist_zamb">Zambezia</span></li>
+					<li><span id="sara_report_tip_dist_mani">Manica</span></li>
+					<li><span id="sara_report_tip_dist_sofa">Sofala</span></li>
+					<li><span id="sara_report_tip_dist_gaza">Gaza</span></li>
+					<li><span id="sara_report_tip_dist_inha">Inhambane</span></li>
+					<li><span id="sara_report_tip_dist_mapc">Maputo Cidade</span></li>
+					<li><span id="sara_report_tip_dist_mapd">Maputo</span></li>
+				</ul>
+			</li>
+			<li><span id="">Autoridade</span>
+				<ul>
+					<li><span id="sara_report_aut_moz">Moçambique</span></li>
+					<li><span id="sara_report_aut_dist_nias">Niassa</span></li>
+					<li><span id="sara_report_aut_dist_cabo">Cabo Delgado</span></li>
+					<li><span id="sara_report_aut_dist_namp">Nampula</span></li>
+					<li><span id="sara_report_aut_dist_tete">Tete</span></li>
+					<li><span id="sara_report_aut_dist_zamb">Zambezia</span></li>
+					<li><span id="sara_report_aut_dist_mani">Manica</span></li>
+					<li><span id="sara_report_aut_dist_sofa">Sofala</span></li>
+					<li><span id="sara_report_aut_dist_gaza">Gaza</span></li>
+					<li><span id="sara_report_aut_dist_inha">Inhambane</span></li>
+					<li><span id="sara_report_aut_dist_mapc">Maputo Cidade</span></li>
+					<li><span id="sara_report_aut_dist_mapd">Maputo</span></li>
+				</ul>
+			</li>
+			<li><span id="">Ministério</span>
+				<ul>
+					<li><span id="sara_report_min_moz">Moçambique</span></li>
+					<li><span id="sara_report_min_dist_nias">Niassa</span></li>
+					<li><span id="sara_report_min_dist_cabo">Cabo Delgado</span></li>
+					<li><span id="sara_report_min_dist_namp">Nampula</span></li>
+					<li><span id="sara_report_min_dist_tete">Tete</span></li>
+					<li><span id="sara_report_min_dist_zamb">Zambezia</span></li>
+					<li><span id="sara_report_min_dist_mani">Manica</span></li>
+					<li><span id="sara_report_min_dist_sofa">Sofala</span></li>
+					<li><span id="sara_report_min_dist_gaza">Gaza</span></li>
+					<li><span id="sara_report_min_dist_inha">Inhambane</span></li>
+					<li><span id="sara_report_min_dist_mapc">Maputo Cidade</span></li>
+					<li><span id="sara_report_min_dist_mapd">Maputo</span></li>
+				</ul>
+			</li>
+			<li><span id="">Estado</span>
+				<ul>
+					<li><span id="sara_report_est_moz">Moçambique</span></li>
+					<li><span id="sara_report_est_dist_nias">Niassa</span></li>
+					<li><span id="sara_report_est_dist_cabo">Cabo Delgado</span></li>
+					<li><span id="sara_report_est_dist_namp">Nampula</span></li>
+					<li><span id="sara_report_est_dist_tete">Tete</span></li>
+					<li><span id="sara_report_est_dist_zamb">Zambezia</span></li>
+					<li><span id="sara_report_est_dist_mani">Manica</span></li>
+					<li><span id="sara_report_est_dist_sofa">Sofala</span></li>
+					<li><span id="sara_report_est_dist_gaza">Gaza</span></li>
+					<li><span id="sara_report_est_dist_inha">Inhambane</span></li>
+					<li><span id="sara_report_est_dist_mapc">Maputo Cidade</span></li>
+					<li><span id="sara_report_est_dist_mapd">Maputo</span></li>
+				</ul>
+			</li>
+			<li><span id="">Serviço</span>
+				<ul>
+					<li><span id="sara_report_ser_moz">Moçambique</span></li>
+					<li><span id="sara_report_ser_dist_nias">Niassa</span></li>
+					<li><span id="sara_report_ser_dist_cabo">Cabo Delgado</span></li>
+					<li><span id="sara_report_ser_dist_namp">Nampula</span></li>
+					<li><span id="sara_report_ser_dist_tete">Tete</span></li>
+					<li><span id="sara_report_ser_dist_zamb">Zambezia</span></li>
+					<li><span id="sara_report_ser_dist_mani">Manica</span></li>
+					<li><span id="sara_report_ser_dist_sofa">Sofala</span></li>
+					<li><span id="sara_report_ser_dist_gaza">Gaza</span></li>
+					<li><span id="sara_report_ser_dist_inha">Inhambane</span></li>
+					<li><span id="sara_report_ser_dist_mapc">Maputo Cidade</span></li>
+					<li><span id="sara_report_ser_dist_mapd">Maputo</span></li>
+				</ul>
+			</li>
+			<li><span id="sara_report_guia">Guia</span></li>
+		</ul>
+	</div>
+	<div id="results">
+	</div>
+</div>
+</body>
+</html>

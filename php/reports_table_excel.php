@@ -1,3 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="../js/excelexportjs.js"></script>
+<script type="text/javascript">
+	$(function () {
+		$('#bu_export').click(function(){
+        	$("#stat_table").excelexportjs({
+            	containerid: "stat_table",
+				datatype: 'table'
+	        });
+        });
+	});
+</script>
+<style type="text/css">
+	body {
+		font-family:Arial;
+	}
+	table {
+		border-collapse:collapse;
+		margin-bottom:6px;
+		background-color:white;
+	}
+	table th {
+		border:solid 1px black;padding:4px;
+		background-color:grey;
+		color:white;
+	}
+	table td {
+		border:solid 1px black;padding:4px;
+	}
+	button {
+		margin:10px;
+	}
+</style>
+</head>
+<body>
+
+<button id="bu_export">Exportar tabela para Excel</button>
+
+
 <?php
 
 ini_set('display_errors', '1');
@@ -35,7 +78,7 @@ foreach ($tabquery as $record) {
 			echo '<th>' . $key . '</th>';
 		} else {
 			if ($key=='Serviços') {
-				echo '<td>' . services($db,$row) . '</td>' ;
+				echo '<td style="font-size:xx-small;">' . services($db,$row) . '</td>' ;
 			} else {
 				echo '<td>' . $row . '</td>' ;
 			}
@@ -65,5 +108,6 @@ function services ($db,$commalist) {
 	return $sservices;
 }
 
-
 ?>
+</body>
+</html>
